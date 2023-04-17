@@ -522,6 +522,7 @@ const UltraProvider = ({ children, bpApiEndpoint }) => {
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
+  "Fv": () => (/* reexport */ DEFAULT_BP_API_ENDPOINT),
   "bL": () => (/* reexport */ INITIAL_AUTH),
   "BA": () => (/* reexport */ LINKS),
   "eV": () => (/* reexport */ ultra_class),
@@ -536,7 +537,7 @@ __webpack_require__.d(__webpack_exports__, {
   "HX": () => (/* reexport */ verifiers_isUltraAccount)
 });
 
-// UNUSED EXPORTS: BP_API_ENDPOINTS, DEFAULT_BP_API_ENDPOINT, eUltraAccount, formatComputeUnit, formatNumeralAbreviation, formatTimeSinceNow, get, getAbi, getAccount, getBlock, getCurrencyBalance, getInfo, getListedUniqs, getTableByScope, getTableRows, getUniqDetail, getUniqManifested, getUniqsOwned, getUosBalance, getZipContent, handleUltraError, http, post, put
+// UNUSED EXPORTS: BP_API_ENDPOINTS, eUltraAccount, formatComputeUnit, formatNumeralAbreviation, formatTimeSinceNow, get, getAbi, getAccount, getBlock, getCurrencyBalance, getInfo, getListedUniqs, getTableByScope, getTableRows, getUniqDetail, getUniqManifested, getUniqsOwned, getUosBalance, getZipContent, handleUltraError, http, post, put
 
 ;// CONCATENATED MODULE: ../ultra-utilities/packages/ultra-sdk/dist/esm/utilities/calculs/calcTotalPrice/index.js
 /**

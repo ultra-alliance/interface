@@ -727,7 +727,7 @@ function HTMLHead() {
             }),
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("meta", {
                 name: "description",
-                content: "A sick team of open-source developers working together to  elavate the Ultra Blockchain."
+                content: "A sick team of open-source developers working together to elevate the Ultra Blockchain."
             }),
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("meta", {
                 name: "viewport",
