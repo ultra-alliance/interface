@@ -8,7 +8,7 @@ import {
   ListItemText,
   Skeleton,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 interface InfoCardProps {
   children?: React.ReactNode;
@@ -17,14 +17,14 @@ interface InfoCardProps {
 
 InfoCard.defaultProps = {
   children: <Skeleton variant="rectangular" height={100} />,
-  title: "Ultra Operating System",
+  title: 'Ultra Operating System',
 };
 
 function InfoCard({ children, title }: InfoCardProps) {
   return (
     <Box
       sx={{
-        boxShadow: (theme) => theme.shadows[5],
+        boxShadow: theme => theme.shadows[5],
       }}
     >
       <Card
@@ -33,22 +33,22 @@ function InfoCard({ children, title }: InfoCardProps) {
         sx={{
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
-          border: "1px solid",
-          borderColor: "divider",
+          border: '1px solid',
+          borderColor: 'divider',
 
-          borderBottom: "none",
+          borderBottom: 'none',
         }}
       >
         <Box
           sx={{
             px: 2,
             py: 1,
-            display: "flex",
-            borderBottom: "1px solid",
-            borderColor: "divider",
+            display: 'flex',
+            borderBottom: '1px solid',
+            borderColor: 'divider',
           }}
         >
-          <Typography fontWeight={"bold"} variant="subtitle1" component="h1">
+          <Typography fontWeight={'bold'} variant="subtitle1" component="h1">
             {title}
           </Typography>
         </Box>

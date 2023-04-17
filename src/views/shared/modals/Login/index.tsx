@@ -1,13 +1,13 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { AccountBoxRounded } from "@mui/icons-material";
-import { Divider, FormControl, Stack, TextField } from "@mui/material";
-import { useUltra } from "@ultra-alliance/react-ultra";
-import Modal from "@/components/modals/Modal";
-import { toast } from "react-toastify";
-import { LINKS } from "@ultra-alliance/ultra-sdk";
-import Account from "./Account";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { AccountBoxRounded } from '@mui/icons-material';
+import { Divider, FormControl, Stack, TextField } from '@mui/material';
+import { useUltra } from '@ultra-alliance/react-ultra';
+import Modal from '@/components/modals/Modal';
+import { toast } from 'react-toastify';
+import { LINKS } from '@ultra-alliance/ultra-sdk';
+import Account from './Account';
 
 type LoginProps = {};
 
@@ -15,7 +15,7 @@ let window: Window;
 
 export default function Login({}: LoginProps) {
   const { ultra, login, isAuthenticated } = useUltra();
-  const [address, setAddress] = React.useState("");
+  const [address, setAddress] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddress(event.target.value);
@@ -38,10 +38,10 @@ export default function Login({}: LoginProps) {
         throw e;
       }),
       {
-        pending: "Logging in ...",
-        success: "Logged in, welcome back!",
-        error: "Failed to login",
-      }
+        pending: 'Logging in ...',
+        success: 'Logged in, welcome back!',
+        error: 'Failed to login',
+      },
     );
 
     // const id = toast.loading("Loading account info");
@@ -63,7 +63,7 @@ export default function Login({}: LoginProps) {
           onClick={handleOpen}
           startIcon={<AccountBoxRounded />}
           color="secondary"
-          sx={{ color: "white" }}
+          sx={{ color: 'white' }}
           variant="text"
         >
           Login
@@ -71,14 +71,14 @@ export default function Login({}: LoginProps) {
       )}
 
       <Modal
-        title={"Login to your Ultra account"}
+        title={'Login to your Ultra account'}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         open={open}
         onClose={handleClose}
       >
         <React.Fragment>
-          {typeof (window as any)?.ultra === "object" ? (
+          {typeof (window as any)?.ultra === 'object' ? (
             <Stack padding={4} direction="column" spacing={2}>
               <Typography id="modal-modal-description">
                 Access your Ultra guild builder tool and manage your projects
@@ -90,7 +90,7 @@ export default function Login({}: LoginProps) {
             </Stack>
           ) : (
             <Stack
-              bgcolor={"primary.main"}
+              bgcolor={'primary.main'}
               padding={4}
               direction="column"
               spacing={2}
@@ -99,7 +99,7 @@ export default function Login({}: LoginProps) {
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
-                fontWeight={"bold"}
+                fontWeight={'bold'}
               >
                 {"Don't have a wallet ?"}
               </Typography>
@@ -115,7 +115,7 @@ export default function Login({}: LoginProps) {
                 href={LINKS.DOWNLOAD_WALLET}
                 target="_blank"
               >
-                Download wallet{" "}
+                Download wallet{' '}
               </Button>
             </Stack>
           )}

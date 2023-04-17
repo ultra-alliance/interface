@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Grid,
   Typography,
@@ -15,20 +15,20 @@ import {
   IconButton,
   Button,
   InputAdornment,
-} from "@mui/material";
+} from '@mui/material';
 import {
   tUniq,
   getZipContent,
   type tManifest,
   type tUniqManifested,
-} from "@ultra-alliance/ultra-sdk";
-import { useUltra, useUltraQuery } from "@ultra-alliance/react-ultra";
-import HTMLHead from "../shared/HTMLHead";
-import App from "../shared/layouts/App";
-import { LoadingIndicator, SearchBar, UniqCard } from "@/components";
-import { Search } from "@mui/icons-material";
-import usePageRedirect from "@/hooks/usePageRedirect";
-import { toast } from "react-toastify";
+} from '@ultra-alliance/ultra-sdk';
+import { useUltra, useUltraQuery } from '@ultra-alliance/react-ultra';
+import HTMLHead from '../shared/HTMLHead';
+import App from '../shared/layouts/App';
+import { LoadingIndicator, SearchBar, UniqCard } from '@/components';
+import { Search } from '@mui/icons-material';
+import usePageRedirect from '@/hooks/usePageRedirect';
+import { toast } from 'react-toastify';
 
 const ITEM_PER_PAGE = 8;
 const THRESHOLD = 200;
@@ -38,7 +38,7 @@ const HomeView = () => {
   const [page, setPage] = useState(0);
   const [uniqs, setUniqs] = useState<tUniqManifested[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const { goToUniq } = usePageRedirect();
   const { data, error, isLoading, fetchData } = useUltraQuery({
     queryFn: async () => {
@@ -48,13 +48,13 @@ const HomeView = () => {
       }
       return undefined;
     },
-    callback: (data) => {
+    callback: data => {
       if (data) {
         goToUniq(data.id);
       }
     },
-    onError: (error) => {
-      toast(error.message, { type: "error" });
+    onError: error => {
+      toast(error.message, { type: 'error' });
     },
     autofetch: false,
   });
@@ -67,7 +67,7 @@ const HomeView = () => {
     fetchData();
   };
 
-  const isSm = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+  const isSm = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
   const loadMoreUniqs = async () => {
     if (!ultra || isLoadingMore) {
@@ -90,8 +90,8 @@ const HomeView = () => {
       }
     }
 
-    setUniqs((prevUniqs) => [...prevUniqs, ...newUniqs]);
-    setPage((prevPage) => prevPage + 1);
+    setUniqs(prevUniqs => [...prevUniqs, ...newUniqs]);
+    setPage(prevPage => prevPage + 1);
     setIsLoadingMore(false);
   };
 
@@ -106,8 +106,8 @@ const HomeView = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
   useEffect(() => {
@@ -120,8 +120,8 @@ const HomeView = () => {
       <App footer={false}>
         <>
           <Stack
-            direction={isSm ? "column" : "row"}
-            alignItems={isSm ? "flex-start" : "center"}
+            direction={isSm ? 'column' : 'row'}
+            alignItems={isSm ? 'flex-start' : 'center'}
           >
             <Typography variant="h5">NFT Factories</Typography>
             <Box
@@ -129,7 +129,7 @@ const HomeView = () => {
                 flexGrow: 1,
                 mb: isSm ? 2 : 0,
               }}
-            />{" "}
+            />{' '}
             <SearchBar
               label="Search a Factory"
               onInputChange={handleSearch}
@@ -140,7 +140,7 @@ const HomeView = () => {
             />
           </Stack>
           <Divider>
-            {" "}
+            {' '}
             <Chip
               variant="filled"
               sx={{ borderRadius: 2, p: 1 }}
@@ -149,7 +149,7 @@ const HomeView = () => {
             />
           </Divider>
           {uniqs.length === 0 && isLoadingMore ? (
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{ width: '100%' }}>
               <LoadingIndicator />
             </Box>
           ) : (
@@ -177,7 +177,7 @@ const HomeView = () => {
             </Grid>
           )}
           {isLoadingMore && uniqs.length !== 0 ? (
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{ width: '100%' }}>
               <LinearProgress />
             </Box>
           ) : null}

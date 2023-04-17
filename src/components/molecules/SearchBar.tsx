@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Button, TextField } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import SearchIcon from "@mui/icons-material/Search";
+import React, { useState } from 'react';
+import { Button, TextField } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
 
 interface SearchBarProps {
   inputValue: string;
@@ -31,8 +31,8 @@ function SearchBar({
       value={inputValue}
       size="small"
       onChange={onInputChange}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
           onSearch();
         }
       }}
@@ -44,29 +44,29 @@ function SearchBar({
         endAdornment: (
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               margin: 0,
-              alignItems: "center",
-              backgroundColor: error ? "red" : theme.palette.primary.main,
-              color: "white",
+              alignItems: 'center',
+              backgroundColor: error ? 'red' : theme.palette.primary.main,
+              color: 'white',
               borderRadius: 4,
-              height: "100%",
-              padding: "8px",
+              height: '100%',
+              padding: '8px',
             }}
           >
             <Button
               style={{
-                backgroundColor: error ? "red" : theme.palette.primary.main,
-                color: "white",
+                backgroundColor: error ? 'red' : theme.palette.primary.main,
+                color: 'white',
                 borderRadius: 4,
                 padding: 2,
               }}
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 onSearch();
               }}
               disabled={
-                inputValue.trim() === "" || !inputValue || inputValue === ""
+                inputValue.trim() === '' || !inputValue || inputValue === ''
               }
               startIcon={<SearchIcon />}
             >

@@ -1,7 +1,7 @@
-import React from "react";
-import InfoCard from "@/components/molecules/InfoCard";
-import { Button, Divider, Skeleton, Typography } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React from 'react';
+import InfoCard from '@/components/molecules/InfoCard';
+import { Button, Divider, Skeleton, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 interface DescriptionProps {
   description?: string;
 }
@@ -14,14 +14,14 @@ export default function Description({ description }: DescriptionProps) {
       return description;
     }
     if (description && description.length > 200) {
-      return description?.slice(0, 200) + "...";
+      return description?.slice(0, 200) + '...';
     }
     return description;
   }
 
   return (
     <InfoCard title="Description">
-      <Typography paragraph sx={{ p: 2, whiteSpace: "pre-wrap" }}>
+      <Typography paragraph sx={{ p: 2, whiteSpace: 'pre-wrap' }}>
         {description ? (
           renderDescription()
         ) : (
@@ -32,12 +32,12 @@ export default function Description({ description }: DescriptionProps) {
         variant="text"
         fullWidth
         sx={{
-          color: "white",
+          color: 'white',
         }}
         startIcon={<ExpandMoreIcon />}
         onClick={() => setExtended(!extended)}
       >
-        {extended ? "Show less" : "Show more"}
+        {extended ? 'Show less' : 'Show more'}
       </Button>
     </InfoCard>
   );

@@ -1,21 +1,21 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { CardActionArea, Chip, Divider, Skeleton } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { CardActionArea, Chip, Divider, Skeleton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import {
   formatCurrencyValue,
   formatUosBalance,
   type tListedUniq,
   type tUniq,
   type tManifest,
-} from "@ultra-alliance/ultra-sdk";
-import Image from "next/image";
+} from '@ultra-alliance/ultra-sdk';
+import Image from 'next/image';
 
 type UniqCardProps = {
   manifest?: tManifest;
@@ -32,42 +32,42 @@ UniqCard.defaultProps = {
 export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
   const theme = useTheme();
   return (
-    <Box position={"relative"}>
+    <Box position={'relative'}>
       <Card
         elevation={1}
         sx={{
-          border: "1px solid",
-          borderColor: (theme) => theme.palette.divider,
-          boxShadow: (theme) => theme.shadows[1],
-          "&:hover": {
-            transition: "all 0.2s ease",
-            borderColor: (theme) => theme.palette.primary.light,
+          border: '1px solid',
+          borderColor: theme => theme.palette.divider,
+          boxShadow: theme => theme.shadows[1],
+          '&:hover': {
+            transition: 'all 0.2s ease',
+            borderColor: theme => theme.palette.primary.light,
           },
         }}
       >
         <CardActionArea
           onClick={onClick}
           sx={{
-            boxShadow: "inset 0px 0px 0px 2px rgba(0,0,0,0.3)",
+            boxShadow: 'inset 0px 0px 0px 2px rgba(0,0,0,0.3)',
           }}
         >
-          <Box sx={{ p: 1, position: "relative" }}>
+          <Box sx={{ p: 1, position: 'relative' }}>
             {!manifest?.media?.images?.square ? (
               <Skeleton
                 variant="rectangular"
-                width={"100%"}
+                width={'100%'}
                 sx={{
-                  aspectRatio: "1",
+                  aspectRatio: '1',
                 }}
               />
             ) : (
               <CardMedia
                 sx={{
-                  aspectRatio: "1",
+                  aspectRatio: '1',
                   borderRadius: 1,
-                  boxShadow: "inset 0px 0px 0px 2px rgba(0,0,0,0.3)",
-                  border: "1px solid",
-                  borderColor: (theme) => theme.palette.divider,
+                  boxShadow: 'inset 0px 0px 0px 2px rgba(0,0,0,0.3)',
+                  border: '1px solid',
+                  borderColor: theme => theme.palette.divider,
                 }}
                 image={manifest?.media?.images?.square}
                 title="green iguana"
@@ -76,15 +76,15 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
           </Box>
           <CardContent>
             <Typography
-              textAlign={"center"}
+              textAlign={'center'}
               variant="h6"
               component="div"
-              fontWeight={"bold"}
+              fontWeight={'bold'}
             >
               {!manifest?.name ? <Skeleton width={100} /> : manifest?.name}
             </Typography>
             <Typography
-              textAlign={"center"}
+              textAlign={'center'}
               variant="body2"
               color="text.secondary"
               component="div"
@@ -99,31 +99,31 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
             <Typography
               sx={{
                 pt: 1,
-                color: "white",
+                color: 'white',
               }}
-              component={"div"}
+              component={'div'}
               textAlign="center"
-              fontWeight={"bold"}
+              fontWeight={'bold'}
               variant="overline"
             >
               {!uniq?.asset_creator ? (
-                <Skeleton width={"100%"} />
+                <Skeleton width={'100%'} />
               ) : (
                 <>
-                  <span style={{ fontWeight: "normal" }}>by</span>{" "}
+                  <span style={{ fontWeight: 'normal' }}>by</span>{' '}
                   {uniq.asset_creator}
                 </>
-              )}{" "}
+              )}{' '}
             </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
       <Box
         sx={{
-          position: "absolute",
-          display: "flex",
-          top: "-5px",
-          left: "-5px",
+          position: 'absolute',
+          display: 'flex',
+          top: '-5px',
+          left: '-5px',
         }}
       >
         <Chip
@@ -131,8 +131,8 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
           variant="filled"
           label="Collectible"
           sx={{
-            backgroundColor: "#737373",
-            boxShadow: (theme) => theme.shadows[2],
+            backgroundColor: '#737373',
+            boxShadow: theme => theme.shadows[2],
           }}
           icon={
             <Image

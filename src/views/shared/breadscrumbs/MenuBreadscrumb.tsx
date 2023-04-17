@@ -1,17 +1,17 @@
-import * as React from "react";
-import Typography from "@mui/material/Typography";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Link from "@mui/material/Link";
-import HomeIcon from "@mui/icons-material/Home";
-import WhatshotIcon from "@mui/icons-material/Whatshot";
-import GrainIcon from "@mui/icons-material/Grain";
-import Image from "next/image";
-import usePageRedirect from "@/hooks/usePageRedirect";
-import { useRouter } from "next/router";
+import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
+import HomeIcon from '@mui/icons-material/Home';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import GrainIcon from '@mui/icons-material/Grain';
+import Image from 'next/image';
+import usePageRedirect from '@/hooks/usePageRedirect';
+import { useRouter } from 'next/router';
 
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
-  console.info("You clicked a breadcrumb.");
+  console.info('You clicked a breadcrumb.');
 }
 
 export default function MenuBreadscrumb() {
@@ -23,18 +23,18 @@ export default function MenuBreadscrumb() {
       <Breadcrumbs aria-label="breadcrumb">
         <Link
           underline="hover"
-          sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
           color="inherit"
           onClick={() => goToHome()}
         >
           <Image
-            style={{ marginRight: "4px" }}
+            style={{ marginRight: '4px' }}
             src="/uta-logo-purple.png"
             alt="logo"
             width={20}
             height={20}
           />
-          <Typography sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
+          <Typography sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
             Ultra Alliance
           </Typography>
         </Link>

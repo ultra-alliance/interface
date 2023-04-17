@@ -3,9 +3,9 @@ import {
   calcTotalPrice,
   formatUosBalance,
   tValidInput,
-} from "@ultra-alliance/ultra-sdk";
-import { CURRENCIES, tCurrency } from "@ultra-alliance/react-ultra";
-import { Skeleton, Typography, useTheme } from "@mui/material";
+} from '@ultra-alliance/ultra-sdk';
+import { CURRENCIES, tCurrency } from '@ultra-alliance/react-ultra';
+import { Skeleton, Typography, useTheme } from '@mui/material';
 
 interface PriceDisplayRatioProps {
   coreLiquidityBalance?: tValidInput;
@@ -32,8 +32,8 @@ export default function PriceDisplayRatio({
         <Skeleton
           variant="text"
           sx={{
-            width: "100px",
-            height: "40px",
+            width: '100px',
+            height: '40px',
           }}
         />
       ) : (
@@ -42,21 +42,21 @@ export default function PriceDisplayRatio({
           {formatUosBalance(coreLiquidityBalance)}
           <span
             style={{
-              display: baseCurrency?.ticker === "UOS" ? "none" : "",
-              color: "white",
+              display: baseCurrency?.ticker === 'UOS' ? 'none' : '',
+              color: 'white',
               opacity: 0.8,
               fontWeight: 200,
               fontSize: 14,
             }}
           >
-            {" "}
-            / {baseCurrency.symbol}{" "}
+            {' '}
+            / {baseCurrency.symbol}{' '}
             {formatCurrencyValue({
               value: calcTotalPrice({
                 basePrice: uosPriceInBaseCurrency,
                 balance: coreLiquidityBalance,
               }),
-              ticker: "",
+              ticker: '',
             })}
           </span>
         </>

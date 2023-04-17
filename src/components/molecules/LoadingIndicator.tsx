@@ -1,13 +1,13 @@
-import * as React from "react";
-import { LinearProgress, Typography } from "@mui/material";
+import * as React from 'react';
+import { LinearProgress, Typography } from '@mui/material';
 
 export default function LoadingIndicator() {
   const randomNftTexts = [
-    "Discover Unique collectibles",
-    "Loading incredibles images",
-    "Upgrading the NFT standard",
-    "Downloading cool content",
-    "Entering the UOS",
+    'Discover Unique collectibles',
+    'Loading incredibles images',
+    'Upgrading the NFT standard',
+    'Downloading cool content',
+    'Entering the UOS',
   ];
 
   const [randomText, setRandomText] = React.useState<string>(randomNftTexts[0]);
@@ -16,14 +16,14 @@ export default function LoadingIndicator() {
   React.useEffect(() => {
     const intervalId = setInterval(() => {
       setRandomText(
-        randomNftTexts[Math.floor(Math.random() * randomNftTexts.length)]
+        randomNftTexts[Math.floor(Math.random() * randomNftTexts.length)],
       );
     }, 3000);
     return () => clearInterval(intervalId);
   }, []);
 
   return (
-    <div style={{ height: "300px" }}>
+    <div style={{ height: '300px' }}>
       <Typography variant="overline" align="center" sx={{ mt: 2 }}>
         {randomText}
       </Typography>

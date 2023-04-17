@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Avatar,
   Box,
@@ -16,10 +16,10 @@ import {
   Stack,
   Typography,
   Zoom,
-} from "@mui/material";
-import { useUltra, useUltraQuery } from "@ultra-alliance/react-ultra";
-import Image from "next/image";
-import ViewCarouselIcon from "@mui/icons-material/ViewCarousel";
+} from '@mui/material';
+import { useUltra, useUltraQuery } from '@ultra-alliance/react-ultra';
+import Image from 'next/image';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 export default function Footer() {
   const { ultra } = useUltra();
   const { data, isLoading, fetchData } = useUltraQuery({
@@ -40,15 +40,15 @@ export default function Footer() {
   }, []);
 
   return (
-    <Container component={"footer"}>
+    <Container component={'footer'}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={3}>
           <Stack
             direction="column"
             spacing={1}
-            justifyContent={"center"}
-            alignItems={"center"}
-            sx={{ width: "100%" }}
+            justifyContent={'center'}
+            alignItems={'center'}
+            sx={{ width: '100%' }}
           >
             <Image
               src="/uta-logo-purple.png"
@@ -59,35 +59,35 @@ export default function Footer() {
           </Stack>
         </Grid>
         <Zoom in={!isLoading}>
-          <Grid item xs={12} sm={6} md={9} width={"100%"}>
+          <Grid item xs={12} sm={6} md={9} width={'100%'}>
             <LinearProgress
-              variant={isLoading ? "indeterminate" : "determinate"}
-              sx={{ width: "100%", height: "4px", mb: 1 }}
+              variant={isLoading ? 'indeterminate' : 'determinate'}
+              sx={{ width: '100%', height: '4px', mb: 1 }}
             />
             <Stack
               direction="row"
               spacing={1}
-              justifyContent={"space-between"}
-              sx={{ width: "100%" }}
-              alignItems={"center"}
+              justifyContent={'space-between'}
+              sx={{ width: '100%' }}
+              alignItems={'center'}
             >
               {isLoading && <CircularProgress size={20} />}
               <Typography variant="body2" color="inherit" fontWeight="bold">
                 {isLoading
-                  ? "Fetching blockchain info..."
+                  ? 'Fetching blockchain info...'
                   : `Head Block n°${data?.info?.head_block_num}`}
               </Typography>
               <Typography variant="overline" color="inherit" fontWeight="bold">
                 {isLoading || !data
-                  ? ""
+                  ? ''
                   : new Date(data?.info?.head_block_time).toLocaleString()}
               </Typography>
             </Stack>
 
             <List
               sx={{
-                width: "100%",
-                display: "flex-wrap",
+                width: '100%',
+                display: 'flex-wrap',
               }}
             >
               <ListItemButton disableGutters>
@@ -95,7 +95,7 @@ export default function Footer() {
                   <Avatar
                     variant="rounded"
                     sx={{
-                      bgcolor: "primary.light",
+                      bgcolor: 'primary.light',
                     }}
                   >
                     <ViewCarouselIcon />

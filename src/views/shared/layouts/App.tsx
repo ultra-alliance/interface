@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Container,
   Box,
@@ -6,12 +6,12 @@ import {
   Toolbar,
   Typography,
   Link,
-} from "@mui/material";
+} from '@mui/material';
 //import Footer from "./Footer";
-import Appbar from "./Appbar";
-import Sidebar from "./Sidebar";
-import { DRAWER_WIDTH } from "@/constants/dimensions";
-import Footer from "./Footer";
+import Appbar from './Appbar';
+import Sidebar from './Sidebar';
+import { DRAWER_WIDTH } from '@/constants/dimensions';
+import Footer from './Footer';
 // import { GuildModel } from "@/models/guild.model";
 
 interface AppProps {
@@ -44,8 +44,8 @@ export default function App(props: AppProps) {
   return (
     <Box
       sx={{
-        backgroundColor: "secondary.main",
-        minHeight: "100%",
+        backgroundColor: 'secondary.main',
+        minHeight: '100%',
       }}
     >
       <Appbar handleDrawerToggle={handleDrawerToggle} />
@@ -65,51 +65,51 @@ export default function App(props: AppProps) {
           ml: { md: `${DRAWER_WIDTH}px` },
         }}
       >
-        <Container sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <Container sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
           <Toolbar />
           {children}
         </Container>
         <Divider sx={{ my: 3 }} />
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "secondary.main",
-            color: "white",
-            width: "100%",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'secondary.main',
+            color: 'white',
+            width: '100%',
           }}
         >
           <Box
-            display={"flex"}
-            flexDirection={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            width={"fit-content"}
+            display={'flex'}
+            flexDirection={'column'}
+            alignItems={'center'}
+            justifyContent={'center'}
+            width={'fit-content'}
           >
             <Typography
               variant="overline"
-              textAlign={"center"}
+              textAlign={'center'}
               color="inherit"
               fontWeight="bold"
             >
               Not endorsed by or affiliated with Ultra
             </Typography>
             <Typography variant="body2" color="inherit">
-              Made with 💜 by{" "}
+              Made with 💜 by{' '}
               <Link
                 href="/"
                 sx={{
-                  color: "white",
-                  fontWeight: "bold",
-                  textDecoration: "none",
-                  "&:hover": {
-                    textDecoration: "underline",
+                  color: 'white',
+                  fontWeight: 'bold',
+                  textDecoration: 'none',
+                  '&:hover': {
+                    textDecoration: 'underline',
                   },
                 }}
               >
                 Ultra Tech Alliance
-              </Link>{" "}
+              </Link>{' '}
               - {new Date().getFullYear()}
             </Typography>
           </Box>

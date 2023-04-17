@@ -6,7 +6,7 @@ import {
   ListItemText,
   Stack,
   Tooltip,
-} from "@mui/material";
+} from '@mui/material';
 
 export interface ListItemData {
   visible: boolean;
@@ -28,7 +28,7 @@ function DataList({ listItems }: DataListProps) {
         <Box
           key={index}
           sx={{
-            display: !item.visible ? "none" : "block",
+            display: !item.visible ? 'none' : 'block',
           }}
         >
           <ListItem
@@ -36,7 +36,7 @@ function DataList({ listItems }: DataListProps) {
               my: 1,
             }}
             secondaryAction={
-              <Stack direction={"row"} spacing={1} alignItems={"center"}>
+              <Stack direction={'row'} spacing={1} alignItems={'center'}>
                 {item.secondaryAction}
               </Stack>
             }
@@ -44,10 +44,10 @@ function DataList({ listItems }: DataListProps) {
             <ListItemText
               primary={
                 <Stack
-                  direction={"row"}
+                  direction={'row'}
                   spacing={2}
                   gap={1}
-                  alignItems={"center"}
+                  alignItems={'center'}
                 >
                   <Tooltip disableFocusListener arrow title={item.tooltip}>
                     <Box>{item.primaryText}</Box>

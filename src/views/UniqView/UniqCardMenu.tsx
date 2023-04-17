@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Avatar,
   Card,
@@ -10,17 +10,17 @@ import {
   Tabs,
   Typography,
   useTheme,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import useBreakPoint from "@/hooks/useBreakpoint";
-import { useLocalisation } from "@ultra-alliance/react-ultra";
-import { tUniqManifested } from "@ultra-alliance/ultra-sdk";
-import Image from "next/image";
+} from '@mui/material';
+import { Box } from '@mui/system';
+import useBreakPoint from '@/hooks/useBreakpoint';
+import { useLocalisation } from '@ultra-alliance/react-ultra';
+import { tUniqManifested } from '@ultra-alliance/ultra-sdk';
+import Image from 'next/image';
 
 function a11yProps(index: number) {
   return {
     id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
   };
 }
 
@@ -53,8 +53,8 @@ export default function UniqCardMenu({
         <Skeleton
           variant="rectangular"
           sx={{
-            width: "100px",
-            height: "100px",
+            width: '100px',
+            height: '100px',
           }}
         />
       );
@@ -63,13 +63,13 @@ export default function UniqCardMenu({
       <Avatar
         variant="rounded"
         sx={{
-          borderBottomLeftRadius: !isMd ? "" : 0,
-          borderBottomRightRadius: !isMd ? "" : 0,
-          borderTopRightRadius: !isMd ? "" : 0,
-          bgcolor: "primary.light",
+          borderBottomLeftRadius: !isMd ? '' : 0,
+          borderBottomRightRadius: !isMd ? '' : 0,
+          borderTopRightRadius: !isMd ? '' : 0,
+          bgcolor: 'primary.light',
           width: 100,
           height: 100,
-          boxShadow: (theme) => theme.shadows[3],
+          boxShadow: theme => theme.shadows[3],
         }}
         src={uniq.manifest.media?.images?.square}
       />
@@ -86,36 +86,36 @@ export default function UniqCardMenu({
         variant="elevation"
         elevation={2}
         sx={{
-          position: "relative",
+          position: 'relative',
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
         }}
       >
         <Tabs
-          orientation={isLg ? "horizontal" : "vertical"}
+          orientation={isLg ? 'horizontal' : 'vertical'}
           allowScrollButtonsMobile
           scrollButtons="auto"
           value={page}
           variant="scrollable"
           onChange={(_e, value) => onTabChange(_e, value)}
           sx={{
-            "& .MuiTabs-indicator": {
-              bgcolor: "primary.main",
-              opacity: "1",
+            '& .MuiTabs-indicator': {
+              bgcolor: 'primary.main',
+              opacity: '1',
               width: 5,
             },
 
-            "& .MuiTab-root": {
-              color: "#ffffff3",
-              fontWeight: "bold",
-              "&:hover": {
-                color: "white",
-                transition: "all 0.2s ease-in-out",
+            '& .MuiTab-root': {
+              color: '#ffffff3',
+              fontWeight: 'bold',
+              '&:hover': {
+                color: 'white',
+                transition: 'all 0.2s ease-in-out',
               },
             },
-            "& .MuiTab-root.Mui-selected": {
-              fontWeight: "bold",
-              color: "white",
+            '& .MuiTab-root.Mui-selected': {
+              fontWeight: 'bold',
+              color: 'white',
             },
           }}
         >
@@ -140,14 +140,14 @@ export default function UniqCardMenu({
         elevation={2}
         variant="elevation"
         sx={{
-          border: "1px solid",
-          borderColor: "divider",
-          borderBottom: "none",
-          width: "100%",
+          border: '1px solid',
+          borderColor: 'divider',
+          borderBottom: 'none',
+          width: '100%',
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
-          background: (theme) =>
-            `linear-gradient(to ${!isLg ? "top" : "right"}, ${
+          background: theme =>
+            `linear-gradient(to ${!isLg ? 'top' : 'right'}, ${
               theme.palette.background.default
             } 40%, transparent 200%), url(${
               uniq?.manifest?.media?.images?.square
@@ -158,10 +158,10 @@ export default function UniqCardMenu({
           sx={{
             p: 3,
             gap: 3,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: isLg ? "" : "center",
-            flexDirection: isLg ? "row" : "column",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isLg ? '' : 'center',
+            flexDirection: isLg ? 'row' : 'column',
           }}
         >
           {renderAvatar()}
@@ -171,33 +171,33 @@ export default function UniqCardMenu({
               direction="column"
               gap={0}
               sx={{
-                alignItems: isLg ? "flex-start" : "center",
+                alignItems: isLg ? 'flex-start' : 'center',
               }}
             >
               <Typography
-                textAlign={isLg ? "left" : "center"}
+                textAlign={isLg ? 'left' : 'center'}
                 variant="h6"
-                sx={{ fontWeight: "bold" }}
+                sx={{ fontWeight: 'bold' }}
               >
                 {uniq?.manifest.name ?? (
                   <Skeleton
                     variant="text"
                     sx={{
-                      width: "100px",
+                      width: '100px',
                     }}
                   />
                 )}
               </Typography>
               <Typography
-                textAlign={isLg ? "left" : "center"}
+                textAlign={isLg ? 'left' : 'center'}
                 variant="subtitle2"
-                sx={{ fontWeight: "bold" }}
+                sx={{ fontWeight: 'bold' }}
               >
                 {uniq?.manifest.subName}
               </Typography>
               <Typography
                 variant="overline"
-                textAlign={isLg ? "left" : "center"}
+                textAlign={isLg ? 'left' : 'center'}
               >
                 {uniq?.uniq?.id ? (
                   `FACTORY N°${uniq?.uniq?.id}`
@@ -205,7 +205,7 @@ export default function UniqCardMenu({
                   <Skeleton
                     variant="text"
                     sx={{
-                      width: "60px",
+                      width: '60px',
                     }}
                   />
                 )}

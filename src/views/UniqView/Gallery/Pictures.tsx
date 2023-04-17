@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import InfoCard from "@/components/molecules/InfoCard";
+import React, { useState } from 'react';
+import InfoCard from '@/components/molecules/InfoCard';
 import {
   Avatar,
   Box,
@@ -13,16 +13,16 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { PriceDisplayRatio } from "@/components";
-import InfoIcon from "@mui/icons-material/Info";
-import More from "@mui/icons-material/More";
-import { CURRENCIES } from "@ultra-alliance/react-ultra";
-import { tUniqManifested } from "@ultra-alliance/ultra-sdk";
-import DataList, { ListItemData } from "@/components/lists/DataList";
-import { Download } from "@mui/icons-material";
-import Image from "next/image";
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { PriceDisplayRatio } from '@/components';
+import InfoIcon from '@mui/icons-material/Info';
+import More from '@mui/icons-material/More';
+import { CURRENCIES } from '@ultra-alliance/react-ultra';
+import { tUniqManifested } from '@ultra-alliance/ultra-sdk';
+import DataList, { ListItemData } from '@/components/lists/DataList';
+import { Download } from '@mui/icons-material';
+import Image from 'next/image';
 
 type PicturesProps = {
   uniqData?: tUniqManifested;
@@ -36,7 +36,7 @@ export default function Pictures({ uniqData }: PicturesProps) {
     <InfoCard title={manifest.subName}>
       {manifest.media.images.hero && (
         <>
-          <img alt="here-img" width={"100%"} src={manifest.media.images.hero} />
+          <img alt="here-img" width={'100%'} src={manifest.media.images.hero} />
         </>
       )}
 
@@ -45,7 +45,7 @@ export default function Pictures({ uniqData }: PicturesProps) {
           <img
             alt="product-img"
             src={manifest.media.images.product}
-            width={"100%"}
+            width={'100%'}
           />
         </>
       )}
@@ -55,8 +55,8 @@ export default function Pictures({ uniqData }: PicturesProps) {
           key={index}
           alt="square-img"
           src={img}
-          width={"100%"}
-          height={"auto"}
+          width={'100%'}
+          height={'auto'}
         />
       ))}
     </InfoCard>

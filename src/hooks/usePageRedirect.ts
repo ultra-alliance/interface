@@ -1,10 +1,10 @@
-import { tValidInput } from "@ultra-alliance/ultra-sdk";
-import { useRouter } from "next/router";
+import { tValidInput } from '@ultra-alliance/ultra-sdk';
+import { useRouter } from 'next/router';
 
 enum PagePaths {
-  HOME = "/",
-  ACCOUNT = "/account",
-  UNIQS = "/uniqs",
+  HOME = '/',
+  ACCOUNT = '/account',
+  UNIQS = '/uniqs',
 }
 
 interface RedirectFunctions {

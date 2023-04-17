@@ -1,5 +1,5 @@
 // Head metadata compoennt
-import Head from "next/head";
+import Head from 'next/head';
 
 export default function HTMLHead() {
   return (

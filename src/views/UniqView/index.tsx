@@ -1,4 +1,4 @@
-import { LoyaltyRounded, StorageRounded } from "@mui/icons-material";
+import { LoyaltyRounded, StorageRounded } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -11,21 +11,21 @@ import {
   ListItemText,
   Skeleton,
   Typography,
-} from "@mui/material";
-import React from "react";
-import HTMLHead from "../shared/HTMLHead";
-import App from "../shared/layouts/App";
-import UniqCardMenu from "./UniqCardMenu";
-import usePagination from "@/hooks/usePagination";
-import { useRouter } from "next/router";
-import { useUltraQuery, useUltra } from "@ultra-alliance/react-ultra";
-import InfoCard from "@/components/molecules/InfoCard";
-import Description from "./Overview/Description";
-import Information from "./Overview/Information";
-import { LoadingIndicator } from "@/components";
-import Specifications from "./Overview/Specification";
-import Details from "./Gallery/Details";
-import Pictures from "./Gallery/Pictures";
+} from '@mui/material';
+import React from 'react';
+import HTMLHead from '../shared/HTMLHead';
+import App from '../shared/layouts/App';
+import UniqCardMenu from './UniqCardMenu';
+import usePagination from '@/hooks/usePagination';
+import { useRouter } from 'next/router';
+import { useUltraQuery, useUltra } from '@ultra-alliance/react-ultra';
+import InfoCard from '@/components/molecules/InfoCard';
+import Description from './Overview/Description';
+import Information from './Overview/Information';
+import { LoadingIndicator } from '@/components';
+import Specifications from './Overview/Specification';
+import Details from './Gallery/Details';
+import Pictures from './Gallery/Pictures';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -48,8 +48,8 @@ function TabPanel(props: TabPanelProps) {
       {value === index && (
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
+            display: 'flex',
+            flexDirection: 'column',
             gap: 2,
           }}
         >
@@ -74,7 +74,7 @@ export default function UniqView() {
     queryFn: async () => {
       return await ultra?.getUniqManifested(uniqId as string);
     },
-    callback: (data) => {},
+    callback: data => {},
     autofetch: false,
   });
 
@@ -97,14 +97,14 @@ export default function UniqView() {
               menus={[
                 {
                   id: 1,
-                  name: "Overview",
-                  link: "/account/overview",
+                  name: 'Overview',
+                  link: '/account/overview',
                   onClick: () => {},
                 },
                 {
                   id: 2,
-                  name: "Gallery",
-                  link: "/account/gallery",
+                  name: 'Gallery',
+                  link: '/account/gallery',
                   onClick: () => {},
                 },
               ]}

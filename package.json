@@ -16,6 +16,11 @@
       "@commitlint/config-conventional"
     ]
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "dependencies": {
     "@emotion/cache": "^11.10.7",
     "@emotion/react": "^11.10.6",

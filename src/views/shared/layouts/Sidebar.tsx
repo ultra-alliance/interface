@@ -1,12 +1,12 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 import {
   AddBoxRounded,
   ViewTimelineRounded,
   Article,
   PageviewRounded,
   ViewCarouselRounded,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
 import {
   Avatar,
   Badge,
@@ -21,9 +21,9 @@ import {
   Tooltip,
   Typography,
   useTheme,
-} from "@mui/material";
-import { DRAWER_WIDTH } from "@/constants/dimensions";
-import { LINKS } from "@ultra-alliance/ultra-sdk";
+} from '@mui/material';
+import { DRAWER_WIDTH } from '@/constants/dimensions';
+import { LINKS } from '@ultra-alliance/ultra-sdk';
 
 type SideBarProps = {
   open?: boolean;
@@ -57,9 +57,9 @@ export default function Sidebar(props: SideBarProps) {
         target="_blank"
         sx={{
           minHeight: 48,
-          position: "relative",
-          width: "100%",
-          justifyContent: "center",
+          position: 'relative',
+          width: '100%',
+          justifyContent: 'center',
           px: 1,
         }}
       >
@@ -67,10 +67,10 @@ export default function Sidebar(props: SideBarProps) {
           sx={{
             minWidth: 0,
             mr: 0,
-            justifyContent: "center",
+            justifyContent: 'center',
           }}
         >
-          <Typography variant="h6" component="div" sx={{ color: "white" }}>
+          <Typography variant="h6" component="div" sx={{ color: 'white' }}>
             ᕫ
           </Typography>
         </ListItemIcon>
@@ -82,40 +82,40 @@ export default function Sidebar(props: SideBarProps) {
     title: string,
     icon: any,
     link: string,
-    imageSrc?: string
+    imageSrc?: string,
   ) => {
     return (
       <Tooltip title={title} placement="right" arrow>
-        <ListItem disablePadding sx={{ display: "block" }}>
+        <ListItem disablePadding sx={{ display: 'block' }}>
           <ListItemButton
             href={link}
             target="_blank"
             sx={{
               minHeight: 48,
-              justifyContent: "center",
+              justifyContent: 'center',
             }}
           >
             <ListItemIcon
               sx={{
                 minWidth: 0,
-                mr: "auto",
-                justifyContent: "center",
-                color: "white",
-                display: "flex",
-                alignItems: "center",
+                mr: 'auto',
+                justifyContent: 'center',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
               {imageSrc ? (
                 <Avatar
                   sx={{
-                    backgroundColor: "secondary.light",
-                    color: "white",
-                    fontWeight: "bold",
+                    backgroundColor: 'secondary.light',
+                    color: 'white',
+                    fontWeight: 'bold',
                   }}
                   variant="rounded"
                   imgProps={{
                     style: {
-                      borderRadius: "50%",
+                      borderRadius: '50%',
                     },
                   }}
                   srcSet={imageSrc}
@@ -135,20 +135,20 @@ export default function Sidebar(props: SideBarProps) {
     const imageSrc = guild.iconUrl;
     return (
       <Tooltip key={guild.id} title={title} placement="right" arrow>
-        <ListItem disablePadding sx={{ display: "block" }}>
+        <ListItem disablePadding sx={{ display: 'block' }}>
           <ListItemButton
             selected={false}
             sx={{
               minHeight: 48,
-              justifyContent: "center",
+              justifyContent: 'center',
               px: 1,
             }}
           >
             <ListItemIcon
               sx={{
                 minWidth: 0,
-                mr: "auto",
-                justifyContent: "center",
+                mr: 'auto',
+                justifyContent: 'center',
               }}
             >
               <Badge
@@ -158,9 +158,9 @@ export default function Sidebar(props: SideBarProps) {
               >
                 <Avatar
                   sx={{
-                    backgroundColor: "secondary.light",
-                    color: "white",
-                    fontWeight: "bold",
+                    backgroundColor: 'secondary.light',
+                    color: 'white',
+                    fontWeight: 'bold',
                   }}
                   variant="rounded"
                   srcSet={imageSrc}
@@ -177,29 +177,29 @@ export default function Sidebar(props: SideBarProps) {
 
   const renderSearchListItem = (text: string) => {
     const icon =
-      text === "Ultra Documentation" ? (
+      text === 'Ultra Documentation' ? (
         <Article fontSize="large" />
       ) : (
         <PageviewRounded fontSize="large" />
       );
     return (
       <Tooltip key={text} title={text} placement="right" arrow>
-        <ListItem disablePadding sx={{ display: "block" }}>
+        <ListItem disablePadding sx={{ display: 'block' }}>
           <ListItemButton
-            selected={text === "Search"}
+            selected={text === 'Search'}
             sx={{
               minHeight: 48,
-              justifyContent: "center",
+              justifyContent: 'center',
             }}
           >
             <ListItemIcon
               sx={{
                 minWidth: 0,
-                mr: "auto",
-                justifyContent: "center",
-                color: "white",
-                display: "flex",
-                alignItems: "center",
+                mr: 'auto',
+                justifyContent: 'center',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
               {icon}
@@ -216,18 +216,18 @@ export default function Sidebar(props: SideBarProps) {
         <Toolbar
           disableGutters
           sx={{
-            width: "auto",
-            position: "relative",
-            margin: "0px",
-            paddingLeft: "0px",
-            paddingRight: "0px",
-            backgroundColor: "primary.main",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            width: 'auto',
+            position: 'relative',
+            margin: '0px',
+            paddingLeft: '0px',
+            paddingRight: '0px',
+            backgroundColor: 'primary.main',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <ListItem disablePadding sx={{ display: "block", width: "100%" }}>
+          <ListItem disablePadding sx={{ display: 'block', width: '100%' }}>
             {renderDrawerHeader()}
           </ListItem>
         </Toolbar>
@@ -235,32 +235,32 @@ export default function Sidebar(props: SideBarProps) {
         <Divider />
         <List>
           {renderListItem(
-            "Ultra Times",
+            'Ultra Times',
             undefined,
             LINKS.ULTRA_TIMES,
-            "https://pbs.twimg.com/profile_images/1569433807580708867/JXHPG6Fa_400x400.jpg"
+            'https://pbs.twimg.com/profile_images/1569433807580708867/JXHPG6Fa_400x400.jpg',
           )}
           {renderListItem(
-            "Ultra is Life",
+            'Ultra is Life',
             undefined,
             LINKS.ULTRA_IS_LIFE,
-            "https://www.ultraislife.com/en/assets/icons/icon-72x72.png"
+            'https://www.ultraislife.com/en/assets/icons/icon-72x72.png',
           )}
           {renderListItem(
-            "Ultra Documentation",
+            'Ultra Documentation',
             <Article />,
             LINKS.ULTRA_DOCS,
-            undefined
+            undefined,
           )}
           {renderListItem(
-            "Block Explorer",
+            'Block Explorer',
             <ViewCarouselRounded />,
             LINKS.ULTRA_EXPLORER,
-            undefined
+            undefined,
           )}
           <Divider />
           {props.guilds?.map((guild: any, index: number) =>
-            renderGuildListItem(guild, index)
+            renderGuildListItem(guild, index),
           )}
         </List>
       </div>
@@ -283,10 +283,10 @@ export default function Sidebar(props: SideBarProps) {
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          display: { xs: "block", sm: "block", md: "none" },
-          "& .MuiDrawer-paper": {
-            bgcolor: "background.default",
-            boxSizing: "border-box",
+          display: { xs: 'block', sm: 'block', md: 'none' },
+          '& .MuiDrawer-paper': {
+            bgcolor: 'background.default',
+            boxSizing: 'border-box',
             width: DRAWER_WIDTH,
           },
         }}
@@ -296,9 +296,9 @@ export default function Sidebar(props: SideBarProps) {
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: "none", sm: "none", md: "block" },
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
+          display: { xs: 'none', sm: 'none', md: 'block' },
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
             width: DRAWER_WIDTH,
           },
         }}

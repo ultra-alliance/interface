@@ -1,20 +1,20 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Modal from "@/components/modals/Modal";
-import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
-import { AvatarGroup, IconButton, List, Stack } from "@mui/material";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Modal from '@/components/modals/Modal';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import { AvatarGroup, IconButton, List, Stack } from '@mui/material';
 import {
   tResaleShare,
   formatBasisPoint,
   isUltraAccount,
   calcPercentFromBasisPoint,
-} from "@ultra-alliance/ultra-sdk";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ListItemButton from "@mui/material/ListItemButton";
-import { PriceDisplayRatio } from "@/components";
+} from '@ultra-alliance/ultra-sdk';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import ListItemButton from '@mui/material/ListItemButton';
+import { PriceDisplayRatio } from '@/components';
 
 type ModalRoyaltiesProps = {
   shares: tResaleShare[];
@@ -35,24 +35,24 @@ export default function ModalRoyalties({
 
   return (
     <React.Fragment>
-      <Stack direction="row" spacing={0} alignItems={"center"}>
+      <Stack direction="row" spacing={0} alignItems={'center'}>
         {minPrice === 0 && (
           <Avatar
-            sx={{ width: 30, height: 30, bgcolor: "primary.light" }}
+            sx={{ width: 30, height: 30, bgcolor: 'primary.light' }}
             variant="rounded"
-            alt={"Resale Shares"}
+            alt={'Resale Shares'}
           >
             +{shares?.length}
           </Avatar>
         )}
 
         <IconButton onClick={handleOpen}>
-          <UnfoldMoreIcon sx={{ color: "primary.light" }} />
+          <UnfoldMoreIcon sx={{ color: 'primary.light' }} />
         </IconButton>
       </Stack>
 
       <Modal
-        title={"Resale Shares"}
+        title={'Resale Shares'}
         aria-labelledby="resale-shares"
         aria-describedby="resale-shares-details"
         open={open}
@@ -86,11 +86,11 @@ export default function ModalRoyalties({
                       <Avatar
                         variant="rounded"
                         sx={{
-                          bgcolor: "primary.light",
+                          bgcolor: 'primary.light',
                         }}
                         src={
                           isUltraAccount(share.receiver)
-                            ? "https://pbs.twimg.com/profile_images/1392037656004022273/jFSkZjjb_400x400.png"
+                            ? 'https://pbs.twimg.com/profile_images/1392037656004022273/jFSkZjjb_400x400.png'
                             : undefined
                         }
                       />
@@ -98,7 +98,7 @@ export default function ModalRoyalties({
                     <ListItemText
                       primaryTypographyProps={{
                         sx: {
-                          fontWeight: "bold",
+                          fontWeight: 'bold',
                         },
                       }}
                       primary={share.receiver}
@@ -112,7 +112,7 @@ export default function ModalRoyalties({
                 </ListItem>
               ))}
             </List>
-          </Stack>{" "}
+          </Stack>{' '}
         </React.Fragment>
       </Modal>
     </React.Fragment>

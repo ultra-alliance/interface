@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 import {
   AccountBoxRounded,
@@ -8,7 +8,7 @@ import {
   Telegram,
   Twitter,
   YouTube,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
 import {
   Box,
   Divider,
@@ -20,11 +20,11 @@ import {
   Avatar,
   Chip,
   Typography,
-} from "@mui/material";
-import useBreakPoint from "@/hooks/useBreakpoint";
-import { useUltra } from "@ultra-alliance/react-ultra";
-import { formatName, formatUosBalance } from "@ultra-alliance/ultra-sdk";
-import { toast } from "react-toastify";
+} from '@mui/material';
+import useBreakPoint from '@/hooks/useBreakpoint';
+import { useUltra } from '@ultra-alliance/react-ultra';
+import { formatName, formatUosBalance } from '@ultra-alliance/ultra-sdk';
+import { toast } from 'react-toastify';
 
 export default function AvatarMenu() {
   const { logout, account } = useUltra();
@@ -47,7 +47,7 @@ export default function AvatarMenu() {
     logout({
       throwOnError: true,
     }).then(() => {
-      toast.success("Logged out");
+      toast.success('Logged out');
     });
     handleClose();
   };
@@ -61,7 +61,7 @@ export default function AvatarMenu() {
     // },
 
     {
-      name: "Log out",
+      name: 'Log out',
       icon: <LogoutRounded sx={{ mr: 2 }} />,
       onClick: onClickLogout,
     },
@@ -69,23 +69,23 @@ export default function AvatarMenu() {
 
   return (
     <React.Fragment>
-      <Stack direction="row" spacing={1} alignItems={"center"}>
+      <Stack direction="row" spacing={1} alignItems={'center'}>
         <Avatar
           sx={{
-            display: isSm ? "none" : "flex",
+            display: isSm ? 'none' : 'flex',
             height: 22,
             width: 22,
             fontSize: 10,
-            color: "white",
-            fontWeight: "bold",
-            bgcolor: "primary.main",
+            color: 'white',
+            fontWeight: 'bold',
+            bgcolor: 'primary.main',
           }}
         >
           ᕫ
         </Avatar>
-        <Typography variant="overline" display={isSm ? "none" : "block"}>
-          <span style={{ textTransform: "lowercase" }}>x </span>
-          {formatUosBalance(account?.core_liquid_balance?.split(" ")[0] || 0)}
+        <Typography variant="overline" display={isSm ? 'none' : 'block'}>
+          <span style={{ textTransform: 'lowercase' }}>x </span>
+          {formatUosBalance(account?.core_liquid_balance?.split(' ')[0] || 0)}
         </Typography>
         <Button
           onClick={handleClick}
@@ -97,13 +97,13 @@ export default function AvatarMenu() {
                   height: 28,
                   width: 28,
                   mr: isSm ? 0 : 0.5,
-                  bgcolor: "primary.light",
+                  bgcolor: 'primary.light',
                 }}
               />
             )
           }
           color="secondary"
-          sx={{ color: "white" }}
+          sx={{ color: 'white' }}
           variant="text"
         >
           {isSm && account ? (
@@ -113,12 +113,12 @@ export default function AvatarMenu() {
                 height: 28,
                 width: 28,
                 mr: isSm ? 0 : 0.5,
-                bgcolor: "primary.light",
+                bgcolor: 'primary.light',
               }}
             />
           ) : (
             formatName({
-              name: account?.account_name || "",
+              name: account?.account_name || '',
               num: 3,
             })
           )}
@@ -133,13 +133,13 @@ export default function AvatarMenu() {
         PaperProps={{
           elevation: 0,
           sx: {
-            overflow: "visible",
-            borderColor: "divider",
+            overflow: 'visible',
+            borderColor: 'divider',
             borderWidth: 1,
-            borderStyle: "solid",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            borderStyle: 'solid',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: 1.5,
-            "& .MuiAvatar-root": {
+            '& .MuiAvatar-root': {
               width: 32,
               height: 32,
               ml: -0.5,
@@ -147,8 +147,8 @@ export default function AvatarMenu() {
             },
           },
         }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {menus.map((menu: any, index: number) => (
           <div key={menu.name}>

@@ -1,20 +1,20 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { CardActionArea, Chip, Divider, Skeleton } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { CardActionArea, Chip, Divider, Skeleton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import {
   formatCurrencyValue,
   formatUosBalance,
   type tListedUniq,
   type tManifest,
-} from "@ultra-alliance/ultra-sdk";
-import Image from "next/image";
+} from '@ultra-alliance/ultra-sdk';
+import Image from 'next/image';
 
 type ListedUniqCardProps = {
   manifest?: tManifest;
@@ -32,35 +32,35 @@ export default function ListedUniqCard({
 }: ListedUniqCardProps) {
   const theme = useTheme();
   return (
-    <Box position={"relative"}>
+    <Box position={'relative'}>
       <Card
         elevation={1}
         sx={{
-          border: "1px solid",
-          borderColor: (theme) => theme.palette.divider,
-          boxShadow: (theme) => theme.shadows[1],
-          "&:hover": {
-            transition: "all 0.2s ease",
-            borderColor: (theme) => theme.palette.primary.light,
+          border: '1px solid',
+          borderColor: theme => theme.palette.divider,
+          boxShadow: theme => theme.shadows[1],
+          '&:hover': {
+            transition: 'all 0.2s ease',
+            borderColor: theme => theme.palette.primary.light,
           },
         }}
       >
         <CardActionArea
           sx={{
-            boxShadow: "inset 0px 0px 0px 2px rgba(0,0,0,0.3)",
+            boxShadow: 'inset 0px 0px 0px 2px rgba(0,0,0,0.3)',
           }}
         >
-          <Box sx={{ p: 1, position: "relative" }}>
+          <Box sx={{ p: 1, position: 'relative' }}>
             {!manifest?.media?.images?.square ? (
               <Skeleton variant="rectangular" width={245} height={140} />
             ) : (
               <CardMedia
                 sx={{
-                  aspectRatio: "1",
+                  aspectRatio: '1',
                   borderRadius: 1,
-                  boxShadow: "inset 0px 0px 0px 2px rgba(0,0,0,0.3)",
-                  border: "1px solid",
-                  borderColor: (theme) => theme.palette.divider,
+                  boxShadow: 'inset 0px 0px 0px 2px rgba(0,0,0,0.3)',
+                  border: '1px solid',
+                  borderColor: theme => theme.palette.divider,
                 }}
                 image={manifest?.media?.images?.square}
                 title="green iguana"
@@ -69,15 +69,15 @@ export default function ListedUniqCard({
           </Box>
           <CardContent>
             <Typography
-              textAlign={"center"}
+              textAlign={'center'}
               variant="h6"
               component="div"
-              fontWeight={"bold"}
+              fontWeight={'bold'}
             >
               {!manifest?.name ? <Skeleton width={100} /> : manifest?.name}
             </Typography>
             <Typography
-              textAlign={"center"}
+              textAlign={'center'}
               variant="body2"
               color="text.secondary"
               component="div"
@@ -92,31 +92,31 @@ export default function ListedUniqCard({
             <Typography
               sx={{
                 pt: 2,
-                color: "white",
+                color: 'white',
               }}
-              component={"div"}
+              component={'div'}
               textAlign="center"
-              fontWeight={"bold"}
+              fontWeight={'bold'}
             >
               {!listingDetails?.price ? (
-                <Skeleton width={"100%"} />
+                <Skeleton width={'100%'} />
               ) : (
                 <>
-                  {" "}
+                  {' '}
                   {formatCurrencyValue({ value: listingDetails.price })}
                   <span style={{ color: theme.palette.primary.light }}> ᕫ</span>
                 </>
-              )}{" "}
+              )}{' '}
               <span
                 style={{
-                  fontStyle: "italic",
+                  fontStyle: 'italic',
                   opacity: 0.6,
-                  fontSize: "0.8rem",
-                  fontWeight: "lighter",
-                  color: "white",
+                  fontSize: '0.8rem',
+                  fontWeight: 'lighter',
+                  color: 'white',
                 }}
               >
-                (± {formatCurrencyValue({ value: 2123.12, ticker: "$" })})
+                (± {formatCurrencyValue({ value: 2123.12, ticker: '$' })})
               </span>
             </Typography>
           </CardContent>
@@ -124,10 +124,10 @@ export default function ListedUniqCard({
       </Card>
       <Box
         sx={{
-          position: "absolute",
-          display: "flex",
-          top: "-5px",
-          left: "-5px",
+          position: 'absolute',
+          display: 'flex',
+          top: '-5px',
+          left: '-5px',
         }}
       >
         <Chip
@@ -135,8 +135,8 @@ export default function ListedUniqCard({
           variant="filled"
           label="Collectible"
           sx={{
-            backgroundColor: "#737373",
-            boxShadow: (theme) => theme.shadows[2],
+            backgroundColor: '#737373',
+            boxShadow: theme => theme.shadows[2],
           }}
           icon={
             <Image
