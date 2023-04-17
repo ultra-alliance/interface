@@ -11,3 +11,4 @@ package-lock.json
 .next
 dist
 /static
+static

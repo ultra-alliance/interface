@@ -26,9 +26,7 @@ const MyApp: React.FunctionComponent<UltraAppProps> = props => {
             body: { background: ultraTheme.palette.background.default },
           }}
         />
-        <UltraProvider
-          bpApiEndpoint={'https://api.testnet.ultra.eossweden.org'}
-        >
+        <UltraProvider bpApiEndpoint={DEFAULT_BP_API_ENDPOINT}>
           <Component {...pageProps} />
         </UltraProvider>
         <ToastContainer
