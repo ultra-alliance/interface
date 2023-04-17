@@ -1,10 +1,17 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
+  // Prefer loading of ES Modules over CommonJS
+  experimental: { esmExternals: true },
   reactStrictMode: false,
-  output: 'export',
   images: {
     unoptimized: true,
   },
+  transpilePackages: [
+    '@ultra-alliance/react-ultra',
+    '@ultra-alliance/uikit',
+    '@ultra-alliance/ultra-sdk',
+  ],
   webpack: config => {
     config.module.rules.push({
       test: /\.tsx?$/,
@@ -23,4 +30,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

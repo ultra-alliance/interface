@@ -1,13 +1,13 @@
 import type { AppProps } from 'next/app';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ultraTheme } from '@ultra-alliance/uikit';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '@/utilities/createEmotionCache';
 import { UltraProvider } from '@ultra-alliance/react-ultra';
 import { DEFAULT_BP_API_ENDPOINT } from '@ultra-alliance/ultra-sdk';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
+import { ultraTheme } from '@ultra-alliance/uikit';
 
 interface UltraAppProps extends AppProps {
   emotionCache?: EmotionCache;
