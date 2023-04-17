@@ -1,0 +1,53 @@
+{
+  "name": "interface",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "lint": "next lint",
+    "commit": "git-cz",
+    "prettier": "prettier --write ./src",
+    "prepare": "husky install"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.10.7",
+    "@emotion/react": "^11.10.6",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/inter": "^4.5.15",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.11.16",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.33",
+    "@types/react-dom": "18.0.11",
+    "@ultra-alliance/react-ultra": "file:../ultra-utilities/packages/react-ultra",
+    "@ultra-alliance/uikit": "file:../ultra-utilities/packages/uikit",
+    "@ultra-alliance/ultra-sdk": "file:../ultra-utilities/packages/ultra-sdk",
+    "eslint": "8.37.0",
+    "eslint-config-next": "13.2.4",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-toastify": "^9.1.2",
+    "typescript": "5.0.3"
+  },
+  "peerDependencies": {
+    "@ultra-alliance/react-ultra": "file:../ultra-utilities/packages/react-ultra",
+    "@ultra-alliance/uikit": "file:../ultra-utilities/packages/uikit"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "commitizen": "^4.3.0",
+    "husky": "^8.0.0",
+    "prettier": "^2.8.7",
+    "ts-loader": "^9.4.2"
+  }
+}
