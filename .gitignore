@@ -9,5 +9,5 @@ package-lock.json
 */.DS_Store
 */.env
 .next
-out
 dist
+/static
