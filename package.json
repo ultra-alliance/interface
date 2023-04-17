@@ -9,7 +9,8 @@
     "lint": "next lint",
     "commit": "git-cz",
     "prettier": "prettier --write ./src",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "clean": "rm -rf .next out static"
   },
   "commitlint": {
     "extends": [

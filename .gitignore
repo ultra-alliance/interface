@@ -12,3 +12,5 @@ package-lock.json
 dist
 /static
 static
+./static
+static/
