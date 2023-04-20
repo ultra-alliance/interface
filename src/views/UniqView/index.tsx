@@ -60,7 +60,7 @@ export default function UniqView() {
             },
             name: uniq?.manifest.name,
             subName: uniq?.manifest.subName,
-            overlineText: `FACTORY N°${uniq?.uniq?.id}`,
+            overlineText: `${uniq?.uniq?.minted_tokens_no} / ${uniq?.uniq?.max_mintable_tokens} MINTED`,
             onTabChange: (_e, v) => jump(v),
             menus: [
               {

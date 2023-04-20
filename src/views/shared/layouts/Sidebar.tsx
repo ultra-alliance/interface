@@ -6,6 +6,7 @@ import {
   Article,
   PageviewRounded,
   ViewCarouselRounded,
+  HomeRepairService,
 } from '@mui/icons-material';
 import {
   Avatar,
@@ -253,9 +254,15 @@ export default function Sidebar(props: SideBarProps) {
             undefined,
           )}
           {renderListItem(
-            'Block Explorer',
+            'Ultra Block Explorer',
             <ViewCarouselRounded />,
             LINKS.ULTRA_EXPLORER,
+            undefined,
+          )}
+          {renderListItem(
+            'Ultra Ecosystem Links',
+            <HomeRepairService />,
+            'https://ultraio.freshdesk.com/support/solutions/articles/80001069021',
             undefined,
           )}
           <Divider />
