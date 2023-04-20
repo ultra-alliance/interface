@@ -84,9 +84,7 @@ export default function Specifications({ uniqData }: SpecificationsProps) {
       </Box>
       <DataList
         listItems={[
-          {
-            visible: true,
-          },
+          { visible: true },
           {
             visible: true,
             primaryText: 'Max Mintable Tokens',

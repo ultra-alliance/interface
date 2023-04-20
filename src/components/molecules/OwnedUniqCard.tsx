@@ -14,32 +14,42 @@ import {
   type tListedUniq,
   type tUniq,
   type tManifest,
+  tTokenA,
 } from '@ultra-alliance/ultra-sdk';
 import Image from 'next/image';
 
-type UniqCardProps = {
+type OwnedUniqCardProps = {
   manifest?: tManifest;
   uniq?: tUniq;
+  ownedUniq?: tTokenA;
   onClick?: () => void;
 };
 
-UniqCard.defaultProps = {
+OwnedUniqCard.defaultProps = {
   manifest: undefined,
   uniq: undefined,
   onClick: () => {},
 };
 
-export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
+export default function OwnedUniqCard({
+  manifest,
+  uniq,
+  onClick,
+  ownedUniq,
+}: OwnedUniqCardProps) {
   const theme = useTheme();
   return (
     <Box position={'relative'}>
       <Card
-        elevation={1}
         variant="elevation"
+        elevation={2}
         sx={{
           border: '1px solid',
           borderColor: theme => theme.palette.divider,
           boxShadow: theme => theme.shadows[1],
+          backgroundSize: 'contain !important',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
           '&:hover': {
             transition: 'all 0.2s ease',
             borderColor: theme => theme.palette.primary.light,
@@ -50,9 +60,24 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
           onClick={onClick}
           sx={{
             boxShadow: 'inset 0px 0px 0px 2px rgba(0,0,0,0.3)',
+            background: theme =>
+              `linear-gradient(to top, ${
+                theme.palette.background.default
+              } 50%, transparent 200%), url(${
+                manifest?.media.images.square ?? ''
+              })
+            })`,
           }}
         >
-          <Box sx={{ p: 1, position: 'relative' }}>
+          <Box
+            sx={{
+              pt: 2,
+              position: 'relative',
+              alignItems: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
             {!manifest?.media?.images?.square ? (
               <Skeleton
                 variant="rectangular"
@@ -65,6 +90,7 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
               <CardMedia
                 sx={{
                   aspectRatio: '1',
+                  width: '30%',
                   borderRadius: 1,
                   boxShadow: 'inset 0px 0px 0px 2px rgba(0,0,0,0.3)',
                   border: '1px solid',
@@ -78,7 +104,7 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
           <CardContent>
             <Typography
               textAlign={'center'}
-              variant="h6"
+              variant="subtitle1"
               component="div"
               fontWeight={'bold'}
             >
@@ -116,6 +142,22 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
                 </>
               )}{' '}
             </Typography>
+            <Typography
+              sx={{
+                my: -1,
+              }}
+              component={'div'}
+              textAlign="center"
+              variant="overline"
+            >
+              {!uniq?.asset_creator ? (
+                <Skeleton width={'100%'} />
+              ) : (
+                <>
+                  N°{ownedUniq?.serial_number} / {uniq?.max_mintable_tokens}
+                </>
+              )}{' '}
+            </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
@@ -132,7 +174,10 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
           variant="filled"
           label={
             manifest?.type &&
-            manifest.type.charAt(0)?.toUpperCase() + manifest.type.slice(1)
+            manifest.type.charAt(0)?.toUpperCase() +
+              manifest.type.slice(1) +
+              ' #' +
+              ownedUniq?.id
           }
           sx={{
             backgroundColor: '#737373',

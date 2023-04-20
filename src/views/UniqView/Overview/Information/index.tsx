@@ -30,6 +30,7 @@ import {
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import ModalRoyalties from './ModalRoyalties';
 import DataList from '@/components/lists/DataList';
+import usePageRedirect from '@/hooks/usePageRedirect';
 
 type InformationProps = {
   uniqData?: tUniqManifested;
@@ -37,11 +38,13 @@ type InformationProps = {
 
 type ButtonAccountProps = {
   name: string;
+  onClick?: () => void;
 };
 
-const ButtonAccount = ({ name }: ButtonAccountProps) => {
+const ButtonAccount = ({ name, onClick }: ButtonAccountProps) => {
   return (
     <Button
+      onClick={onClick}
       sx={{ color: 'primary.light' }}
       startIcon={
         <Avatar
@@ -62,6 +65,7 @@ const ButtonAccount = ({ name }: ButtonAccountProps) => {
 };
 
 export default function Information({ uniqData }: InformationProps) {
+  const { goToAccount } = usePageRedirect();
   const { uniq, manifest } = uniqData || {};
   if (!uniq || !manifest) return null;
   const listItems = [
@@ -95,13 +99,23 @@ export default function Information({ uniqData }: InformationProps) {
       primaryText: 'Asset Manager',
       tooltip:
         'Account	managing the token lifecycle - issuing, burning, reselling etc.',
-      secondaryAction: <ButtonAccount name={uniq?.asset_manager} />,
+      secondaryAction: (
+        <ButtonAccount
+          onClick={() => goToAccount(uniq?.asset_manager)}
+          name={uniq?.asset_manager}
+        />
+      ),
     },
     {
       visible: true,
       primaryText: 'Asset Creator',
       tooltip: 'Account that created the token factory',
-      secondaryAction: <ButtonAccount name={uniq?.asset_creator} />,
+      secondaryAction: (
+        <ButtonAccount
+          name={uniq?.asset_creator}
+          onClick={() => goToAccount(uniq?.asset_manager)}
+        />
+      ),
     },
     {
       visible: true,

@@ -81,10 +81,7 @@ const HomeView = () => {
 
     const newUniqs: tUniqManifested[] = [];
     for (let i = startIdx + 1; i <= endIdx; i++) {
-      // Changed this line
       const res = await ultra.getUniqManifested(i);
-      console.log(res);
-
       if (res) {
         newUniqs.push(res);
       }
@@ -116,7 +113,6 @@ const HomeView = () => {
 
   return (
     <>
-      <HTMLHead />
       <App footer={false}>
         <>
           <Stack

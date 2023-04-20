@@ -20,8 +20,10 @@ import {
 import { useUltra, useUltraQuery } from '@ultra-alliance/react-ultra';
 import Image from 'next/image';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
+import usePageRedirect from '@/hooks/usePageRedirect';
 export default function Footer() {
   const { ultra } = useUltra();
+  const { goToAccount } = usePageRedirect();
   const { data, isLoading, fetchData } = useUltraQuery({
     queryFn: async () => {
       const info = await ultra?.getInfo();
@@ -39,9 +41,13 @@ export default function Footer() {
     return () => clearInterval(timer);
   }, []);
 
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Container component={'footer'}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} marginBottom={2}>
         <Grid item xs={12} sm={6} md={3}>
           <Stack
             direction="column"
@@ -60,10 +66,10 @@ export default function Footer() {
         </Grid>
         <Zoom in={!isLoading}>
           <Grid item xs={12} sm={6} md={9} width={'100%'}>
-            <LinearProgress
-              variant={isLoading ? 'indeterminate' : 'determinate'}
+            {/* <LinearProgress
+              variant={'indeterminate'}
               sx={{ width: '100%', height: '4px', mb: 1 }}
-            />
+            /> */}
             <Stack
               direction="row"
               spacing={1}
@@ -90,7 +96,7 @@ export default function Footer() {
                 display: 'flex-wrap',
               }}
             >
-              <ListItemButton disableGutters>
+              <ListItemButton disableGutters disableRipple disableTouchRipple>
                 <ListItemAvatar>
                   <Avatar
                     variant="rounded"
