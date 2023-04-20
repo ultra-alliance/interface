@@ -25,21 +25,24 @@ import useBreakPoint from '@/hooks/useBreakpoint';
 import { useUltra } from '@ultra-alliance/react-ultra';
 import { formatName, formatUosBalance } from '@ultra-alliance/ultra-sdk';
 import { toast } from 'react-toastify';
+import usePageRedirect from '@/hooks/usePageRedirect';
 
 export default function AvatarMenu() {
   const { logout, account } = useUltra();
+  const { goToAccount } = usePageRedirect();
   const { isSm } = useBreakPoint();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const onClickViewProfile = () => {
-    // goToAccount(account?.name);
+    goToAccount(account?.account_name || '');
     handleClose();
   };
 
@@ -53,12 +56,12 @@ export default function AvatarMenu() {
   };
 
   const menus: any = [
-    // {
-    //   name: "View Profile",
-    //   icon: <AccountBoxRounded sx={{ mr: 2 }} />,
-    //   onClick: onClickViewProfile,
-    //   divider: true,
-    // },
+    {
+      name: 'View Profile',
+      icon: <AccountBoxRounded sx={{ mr: 2 }} />,
+      onClick: onClickViewProfile,
+      divider: true,
+    },
 
     {
       name: 'Log out',

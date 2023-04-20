@@ -15,6 +15,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItemButton from '@mui/material/ListItemButton';
 import { PriceDisplayRatio } from '@/components';
+import usePageRedirect from '@/hooks/usePageRedirect';
 
 type ModalRoyaltiesProps = {
   shares: tResaleShare[];
@@ -25,6 +26,7 @@ export default function ModalRoyalties({
   shares,
   minPrice,
 }: ModalRoyaltiesProps) {
+  const { goToAccount } = usePageRedirect();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -81,7 +83,11 @@ export default function ModalRoyalties({
                   }
                   disablePadding
                 >
-                  <ListItemButton>
+                  <ListItemButton
+                    onClick={() => {
+                      goToAccount(share.receiver);
+                    }}
+                  >
                     <ListItemAvatar>
                       <Avatar
                         variant="rounded"

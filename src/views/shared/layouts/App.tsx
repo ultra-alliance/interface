@@ -12,6 +12,7 @@ import Appbar from './Appbar';
 import Sidebar from './Sidebar';
 import { DRAWER_WIDTH } from '@/constants/dimensions';
 import Footer from './Footer';
+import HTMLHead from '../HTMLHead';
 // import { GuildModel } from "@/models/guild.model";
 
 interface AppProps {
@@ -42,82 +43,86 @@ export default function App(props: AppProps) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box
-      sx={{
-        backgroundColor: 'secondary.main',
-        minHeight: '100%',
-      }}
-    >
-      <Appbar handleDrawerToggle={handleDrawerToggle} />
-      <Sidebar
-        mobileOpen={mobileOpen}
-        container={container}
-        guilds={props.guilds}
-        handleDrawerToggle={handleDrawerToggle}
-        // onClickUltra={goToHome}
-      />
-
+    <>
+      {' '}
+      <HTMLHead />
       <Box
-        component="main"
         sx={{
-          flexGrow: 1,
-          width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
-          ml: { md: `${DRAWER_WIDTH}px` },
+          backgroundColor: 'secondary.main',
+          minHeight: '100%',
         }}
       >
-        <Container sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          <Toolbar />
-          {children}
-        </Container>
-        <Divider sx={{ my: 3 }} />
+        <Appbar handleDrawerToggle={handleDrawerToggle} />
+        <Sidebar
+          mobileOpen={mobileOpen}
+          container={container}
+          guilds={props.guilds}
+          handleDrawerToggle={handleDrawerToggle}
+          // onClickUltra={goToHome}
+        />
+
         <Box
+          component="main"
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'secondary.main',
-            color: 'white',
-            width: '100%',
+            flexGrow: 1,
+            width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
+            ml: { md: `${DRAWER_WIDTH}px` },
           }}
         >
+          <Container sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Toolbar />
+            {children}
+          </Container>
+          <Divider sx={{ my: 3 }} />
           <Box
-            display={'flex'}
-            flexDirection={'column'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            width={'fit-content'}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'secondary.main',
+              color: 'white',
+              width: '100%',
+            }}
           >
-            <Typography
-              variant="overline"
-              textAlign={'center'}
-              color="inherit"
-              fontWeight="bold"
+            <Box
+              display={'flex'}
+              flexDirection={'column'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              width={'fit-content'}
             >
-              Not endorsed by or affiliated with Ultra
-            </Typography>
-            <Typography variant="body2" color="inherit">
-              Made with 💜 by{' '}
-              <Link
-                href="/"
-                sx={{
-                  color: 'white',
-                  fontWeight: 'bold',
-                  textDecoration: 'none',
-                  '&:hover': {
-                    textDecoration: 'underline',
-                  },
-                }}
+              <Typography
+                variant="overline"
+                textAlign={'center'}
+                color="inherit"
+                fontWeight="bold"
               >
-                Ultra Tech Alliance
-              </Link>{' '}
-              - {new Date().getFullYear()}
-            </Typography>
+                Not endorsed by or affiliated with Ultra
+              </Typography>
+              <Typography variant="body2" color="inherit">
+                Made with 💜 by{' '}
+                <Link
+                  href="/"
+                  sx={{
+                    color: 'white',
+                    fontWeight: 'bold',
+                    textDecoration: 'none',
+                    '&:hover': {
+                      textDecoration: 'underline',
+                    },
+                  }}
+                >
+                  Ultra Tech Alliance
+                </Link>{' '}
+                - {new Date().getFullYear()}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-        <Divider sx={{ my: 3 }} />
+          <Divider sx={{ my: 3 }} />
 
-        {footer && <Footer />}
+          {footer && <Footer />}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }

@@ -10,6 +10,7 @@ import {
   Tabs,
   Typography,
   useTheme,
+  AvatarProps,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import useBreakPoint from '@/hooks/useBreakpoint';
@@ -24,31 +25,36 @@ function a11yProps(index: number) {
   };
 }
 
-interface AccountCardMenuProps {
-  uniq?: tUniqManifested;
-  uosPriceInBaseCurrency: number;
+export interface CardMenuProps {
   page: number;
   onTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+  AvatarProps?: AvatarProps;
+  name?: string;
+  subName?: React.ReactNode;
+  overlineText?: string;
   menus?: {
     id: number;
     name: string;
     link: string;
     onClick: () => void;
+    tabContent?: React.ReactNode;
   }[];
 }
 
-export default function UniqCardMenu({
-  uniq,
-  uosPriceInBaseCurrency,
+export default function CardMenu({
+  AvatarProps,
+  name,
+  subName,
+  overlineText,
   menus,
   page,
   onTabChange,
-}: AccountCardMenuProps) {
+}: CardMenuProps) {
   const { isLg, isMd } = useBreakPoint();
   const { baseCurrency } = useLocalisation();
 
   const renderAvatar = () => {
-    if (!uniq) {
+    if (!name) {
       return (
         <Skeleton
           variant="rectangular"
@@ -63,15 +69,13 @@ export default function UniqCardMenu({
       <Avatar
         variant="rounded"
         sx={{
-          borderBottomLeftRadius: !isMd ? '' : 0,
-          borderBottomRightRadius: !isMd ? '' : 0,
-          borderTopRightRadius: !isMd ? '' : 0,
           bgcolor: 'primary.light',
           width: 100,
           height: 100,
           boxShadow: theme => theme.shadows[3],
         }}
-        src={uniq.manifest.media?.images?.square}
+        src={AvatarProps?.src}
+        {...AvatarProps}
       />
     );
   };
@@ -149,8 +153,7 @@ export default function UniqCardMenu({
           background: theme =>
             `linear-gradient(to ${!isLg ? 'top' : 'right'}, ${
               theme.palette.background.default
-            } 40%, transparent 200%), url(${
-              uniq?.manifest?.media?.images?.square
+            } 40%, transparent 200%), url(${AvatarProps?.src ?? ''})
             })`,
         }}
       >
@@ -179,7 +182,7 @@ export default function UniqCardMenu({
                 variant="h6"
                 sx={{ fontWeight: 'bold' }}
               >
-                {uniq?.manifest.name ?? (
+                {name ?? (
                   <Skeleton
                     variant="text"
                     sx={{
@@ -193,14 +196,14 @@ export default function UniqCardMenu({
                 variant="subtitle2"
                 sx={{ fontWeight: 'bold' }}
               >
-                {uniq?.manifest.subName}
+                {subName}
               </Typography>
               <Typography
                 variant="overline"
                 textAlign={isLg ? 'left' : 'center'}
               >
-                {uniq?.uniq?.id ? (
-                  `FACTORY N°${uniq?.uniq?.id}`
+                {name ? (
+                  overlineText
                 ) : (
                   <Skeleton
                     variant="text"

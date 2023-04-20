@@ -19,9 +19,14 @@ export interface ListItemData {
 
 export interface DataListProps {
   listItems: ListItemData[];
+  withDivider: boolean;
 }
 
-function DataList({ listItems }: DataListProps) {
+DataList.defaultProps = {
+  withDivider: true,
+};
+
+function DataList({ listItems, withDivider }: DataListProps) {
   return (
     <List>
       {listItems.map((item, index) => (
@@ -32,33 +37,39 @@ function DataList({ listItems }: DataListProps) {
           }}
         >
           <ListItem
-            sx={{
-              my: 1,
-            }}
+            sx={{ my: 1 }}
             secondaryAction={
-              <Stack direction={'row'} spacing={1} alignItems={'center'}>
-                {item.secondaryAction}
-              </Stack>
+              item?.secondaryAction && (
+                <Stack direction={'row'} spacing={1} alignItems={'center'}>
+                  {item.secondaryAction}
+                </Stack>
+              )
             }
           >
             <ListItemText
+              sx={{}}
               primary={
-                <Stack
-                  direction={'row'}
-                  spacing={2}
-                  gap={1}
-                  alignItems={'center'}
-                >
-                  <Tooltip disableFocusListener arrow title={item.tooltip}>
-                    <Box>{item.primaryText}</Box>
-                  </Tooltip>
-                </Stack>
+                item?.primaryText && (
+                  <Stack
+                    direction={'row'}
+                    spacing={2}
+                    gap={1}
+                    alignItems={'center'}
+                  >
+                    <Tooltip disableFocusListener arrow title={item.tooltip}>
+                      <Box>{item.primaryText}</Box>
+                    </Tooltip>
+                  </Stack>
+                )
               }
-              secondary={item.secondaryText}
+              secondary={item?.secondaryText && item.secondaryText}
             />
+            {item?.children && <Box width={'100%'}>{item.children}</Box>}
           </ListItem>
-          {item.children}
-          {index !== listItems.length - 1 && <Divider sx={{ mx: 2 }} />}
+
+          {withDivider && index !== listItems.length - 1 && (
+            <Divider sx={{ mx: 2 }} />
+          )}
         </Box>
       ))}
     </List>

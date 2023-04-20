@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 
 enum PagePaths {
   HOME = '/',
-  ACCOUNT = '/account',
+  ACCOUNT = '/accounts',
   UNIQS = '/uniqs',
 }
 
 interface RedirectFunctions {
   goToHome: () => void;
-  goToAccount: () => void;
+  goToAccount: (accountID: string) => void;
   goToUniq: (uniqId: tValidInput) => void;
   // Add more functions as needed
 }
@@ -21,8 +21,8 @@ const usePageRedirect = (): RedirectFunctions => {
     router.push(PagePaths.HOME);
   };
 
-  const goToAccount = () => {
-    router.push(PagePaths.ACCOUNT);
+  const goToAccount = (accountID: string) => {
+    router.push(`${PagePaths.ACCOUNT}/${accountID}`);
   };
 
   const goToUniq = (uniqId: tValidInput) => {
