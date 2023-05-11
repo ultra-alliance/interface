@@ -13,6 +13,7 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Paper,
   Stack,
   Typography,
   Zoom,
@@ -21,12 +22,13 @@ import { useUltra, useUltraQuery } from '@ultra-alliance/react-ultra';
 import Image from 'next/image';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import usePageRedirect from '@/hooks/usePageRedirect';
+import { ultraColors } from '@ultra-alliance/uikit';
 export default function Footer() {
   const { ultra } = useUltra();
   const { goToAccount } = usePageRedirect();
   const { data, isLoading, fetchData } = useUltraQuery({
     queryFn: async () => {
-      const info = await ultra?.getInfo();
+      const info = await ultra?.api.getInfo();
       if (!info) return undefined;
 
       return { info };
@@ -47,7 +49,7 @@ export default function Footer() {
 
   return (
     <Container component={'footer'}>
-      <Grid container spacing={2} marginBottom={2}>
+      <Grid container spacing={2} pb={2}>
         <Grid item xs={12} sm={6} md={3}>
           <Stack
             direction="column"

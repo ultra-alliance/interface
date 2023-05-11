@@ -41,7 +41,13 @@ export default function Appbar({ handleDrawerToggle }: AppbarProps) {
           <IconButton
             color="inherit"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: 'none' } }}
+            sx={{
+              mr: 2,
+              display: { md: 'none' },
+              borderRadius: 2,
+              bgcolor: '#ffffff1a',
+            }}
+            size="small"
           >
             <MoreVertIcon />
           </IconButton>

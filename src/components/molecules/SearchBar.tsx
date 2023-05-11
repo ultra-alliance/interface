@@ -38,6 +38,9 @@ function SearchBar({
       }}
       placeholder={placeholder}
       InputProps={{
+        sx: {
+          bgcolor: 'background.paper',
+        },
         style: {
           padding: 0,
         },

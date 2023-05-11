@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 
 interface PaginationOptions<T> {
-  items: T[];
-  itemsPerPage: number;
+  items?: T[];
+  itemsPerPage?: number;
+  startingPage?: number;
 }
 
 interface PaginationResult<T> {
@@ -19,15 +20,16 @@ interface PaginationResult<T> {
 const usePagination = <T>({
   items,
   itemsPerPage,
+  startingPage = 1,
 }: PaginationOptions<T>): PaginationResult<T> => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(startingPage);
+  const totalPages = Math.ceil((items?.length || 1) / (itemsPerPage ?? 1));
 
-  const startIdx = (currentPage - 1) * itemsPerPage;
-  const endIdx = startIdx + itemsPerPage;
+  const startIdx = (currentPage - 1) * (itemsPerPage ?? 1);
+  const endIdx = startIdx + (itemsPerPage ?? 1);
 
   const paginatedItems = () => {
-    return items.slice(startIdx, endIdx);
+    return items?.slice(startIdx, endIdx) || [];
   };
 
   const next = () => {

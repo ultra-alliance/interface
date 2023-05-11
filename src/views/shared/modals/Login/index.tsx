@@ -2,139 +2,211 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { AccountBoxRounded } from '@mui/icons-material';
-import { Divider, FormControl, Stack, TextField } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  ButtonProps,
+  Divider,
+  FormControl,
+  Stack,
+  TextField,
+} from '@mui/material';
 import { useUltra } from '@ultra-alliance/react-ultra';
 import Modal from '@/components/modals/Modal';
-import { toast } from 'react-toastify';
 import { LINKS } from '@ultra-alliance/ultra-sdk';
 import Account from './Account';
+import { toast } from 'react-toastify';
 
-type LoginProps = {};
+interface ZoneProps {
+  purple?: boolean;
+  title?: string;
+  text?: string;
+  buttonTxt?: string;
+  buttonProps?: ButtonProps;
+}
 
-let window: Window;
+const Zone = ({
+  purple = false,
+  title = undefined,
+  text = undefined,
+  buttonTxt = undefined,
+  buttonProps = undefined,
+}: ZoneProps) => {
+  return (
+    <Stack
+      bgcolor={purple ? 'primary.main' : ''}
+      padding={4}
+      direction="column"
+      spacing={2}
+    >
+      <Typography
+        id="modal-modal-title"
+        variant="h6"
+        component="h2"
+        fontWeight={'bold'}
+      >
+        {title}
+      </Typography>
+      <Typography id="modal-modal-description">{text}</Typography>
+      <Button color={purple ? 'secondary' : 'primary'} {...buttonProps}>
+        {buttonTxt}
+      </Button>
+    </Stack>
+  );
+};
 
-export default function Login({}: LoginProps) {
-  const { ultra, login, isAuthenticated } = useUltra();
-  const [address, setAddress] = React.useState('');
-  const [open, setOpen] = React.useState(false);
-  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(event.target.value);
-  };
+interface LoginProps {
+  opener?: React.ReactNode;
+  isOpen?: boolean;
+  onClose?: () => void;
+  onSuccessLogin?: () => void;
+  withAccountModal?: boolean;
+}
+
+export default function Login({
+  opener,
+  isOpen,
+  onClose,
+  onSuccessLogin,
+  withAccountModal = true,
+}: LoginProps) {
+  const { ultra, login, isAuthenticated, isWalletInstalled } = useUltra();
+
+  const [open, setOpen] = React.useState(isOpen !== undefined ? true : false);
+  const [isToasted, setIsToasted] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    if (onClose) onClose();
   };
+
+  React.useEffect(() => {
+    setOpen(isOpen !== undefined ? isOpen : false);
+  }, [isOpen]);
 
   const onClickLogin = async () => {
     handleClose();
-
+    setIsToasted(true);
     toast.promise(
-      login(address, {
+      login({
         throwOnError: true,
-      }).catch((e: any) => {
-        throw e;
+      }).then(() => {
+        setIsToasted(false);
+        if (onSuccessLogin) onSuccessLogin();
       }),
       {
-        pending: 'Logging in ...',
-        success: 'Logged in, welcome back!',
-        error: 'Failed to login',
+        pending: 'Check your Ultra Wallet to login',
+        success: 'Connected to Ultra Wallet 🎉',
+        error: 'We could not connect to your Ultra Wallet 😢',
       },
     );
-
-    // const id = toast.loading("Loading account info");
-    // const response: any = await ultra.myFunction({ accountName: address });
-    // toast.dismiss(id);
-    // if (response.status === "success") {
-    //   toast.success("Account info loaded");
-    // } else {
-    //   toast.error("Account info failed");
-    // }
   };
+
+  function renderConnectZone() {
+    return (
+      <Zone
+        title="Connect to your Ultra Wallet"
+        buttonTxt="Connect"
+        text="Seems like you have the Ultra Wallet installed, click to login to your Ultra account."
+        buttonProps={{
+          onClick: onClickLogin,
+          variant: 'contained',
+          startIcon: <AccountBoxRounded />,
+
+          fullWidth: true,
+        }}
+      />
+    );
+  }
+
+  function renderDownloadExtensionZone() {
+    return (
+      <Zone
+        title="Don't have the Ultra Wallet ?"
+        text="No worries, you can dowload it securely from the official Ultra website"
+        buttonTxt="Get the wallet"
+        buttonProps={{
+          variant: 'contained',
+          fullWidth: true,
+          onClick: () => {
+            window.open(LINKS.DOWNLOAD_WALLET, '_blank');
+          },
+        }}
+      />
+    );
+  }
+
+  function renderDownloadUltraZone() {
+    return (
+      <Zone
+        purple
+        title="Download Ultra Client !"
+        text="You can download the Ultra client to access all features on Windows"
+        buttonTxt="Download Ultra"
+        buttonProps={{
+          startIcon: (
+            <Avatar
+              sx={{
+                bgcolor: 'transparent',
+              }}
+              imgProps={{
+                sx: {
+                  width: 25,
+                  height: 25,
+                },
+              }}
+              src={
+                'https://s2.qwant.com/thumbr/0x0/5/2/416c3d9af944cae1d8a82c81f749c265c2281ebb2688647015a5e3fb53b916/os-windows-xxl.png?u=https%3A%2F%2Fwww.iconsdb.com%2Ficons%2Fpreview%2Fwhite%2Fos-windows-xxl.png&q=0&b=1&p=0&a=0'
+              }
+            />
+          ),
+          variant: 'contained',
+          fullWidth: true,
+          onClick: () => {
+            window.open(LINKS.DOWNLOAD_ULTRA, '_blank');
+          },
+        }}
+      />
+    );
+  }
 
   return (
     <React.Fragment>
-      {isAuthenticated ? (
+      {isAuthenticated && withAccountModal ? (
         <Account />
       ) : (
-        <Button
-          onClick={handleOpen}
-          startIcon={<AccountBoxRounded />}
-          color="secondary"
-          sx={{ color: 'white' }}
-          variant="text"
-        >
-          Login
-        </Button>
+        <>
+          {opener || (
+            <Button
+              onClick={handleOpen}
+              startIcon={<AccountBoxRounded />}
+              color="secondary"
+              sx={{
+                color: 'white',
+              }}
+              variant="text"
+            >
+              Connect
+            </Button>
+          )}
+        </>
       )}
 
       <Modal
-        title={'Login to your Ultra account'}
+        title={'Connect Ultra account'}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         open={open}
         onClose={handleClose}
       >
         <React.Fragment>
-          {typeof (window as any)?.ultra === 'object' ? (
-            <Stack padding={4} direction="column" spacing={2}>
-              <Typography id="modal-modal-description">
-                Access your Ultra guild builder tool and manage your projects
-                with your ultra wallet
-              </Typography>
-              <Button variant="contained" color="primary" fullWidth>
-                Connect | ᕫ
-              </Button>
-            </Stack>
-          ) : (
-            <Stack
-              bgcolor={'primary.main'}
-              padding={4}
-              direction="column"
-              spacing={2}
-            >
-              <Typography
-                id="modal-modal-title"
-                variant="h6"
-                component="h2"
-                fontWeight={'bold'}
-              >
-                {"Don't have a wallet ?"}
-              </Typography>
-              <Typography id="modal-modal-description">
-                Now worries, you can dowload it securely from the official ᕫltra
-                website
-              </Typography>
-              <Button
-                type="link"
-                variant="contained"
-                color="secondary"
-                fullWidth
-                href={LINKS.DOWNLOAD_WALLET}
-                target="_blank"
-              >
-                Download wallet{' '}
-              </Button>
-            </Stack>
-          )}
-          <Divider />
-          <Stack padding={4} direction="column" spacing={2}>
-            <Typography id="modal-modal-description">
-              Or insert an account name and enter as view mode
-            </Typography>
-            <FormControl fullWidth>
-              <TextField
-                onChange={handleAddressChange}
-                placeholder="eg: ultra.nft.ft"
-                size="small"
-              />
-            </FormControl>
-            <Button variant="contained" color="primary" onClick={onClickLogin}>
-              Log-in
-            </Button>
-          </Stack>
+          {renderDownloadUltraZone()}
+          {isWalletInstalled
+            ? renderConnectZone()
+            : renderDownloadExtensionZone()}
         </React.Fragment>
       </Modal>
     </React.Fragment>

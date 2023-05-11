@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createEmotionCache from '@/utilities/createEmotionCache';
 import { UltraProvider } from '@ultra-alliance/react-ultra';
-import { DEFAULT_BP_API_ENDPOINT } from '@ultra-alliance/ultra-sdk';
+import { BP_API_ENDPOINTS } from '@ultra-alliance/ultra-sdk';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, GlobalStyles } from '@mui/material';
 import { ultraTheme } from '@ultra-alliance/uikit';
@@ -26,13 +26,13 @@ const MyApp: React.FunctionComponent<UltraAppProps> = props => {
             body: { background: ultraTheme.palette.background.default },
           }}
         />
-        <UltraProvider bpApiEndpoint={DEFAULT_BP_API_ENDPOINT}>
+        <UltraProvider bpApiEndpoint={BP_API_ENDPOINTS.main[5]}>
           <Component {...pageProps} />
         </UltraProvider>
         <ToastContainer
           theme="dark"
           toastStyle={{
-            background: ultraTheme.palette.background.paper,
+            background: ultraTheme.palette.background.default,
             color: ultraTheme.palette.text.primary,
             border: '1px solid',
             borderColor: ultraTheme.palette.divider,
@@ -44,6 +44,7 @@ const MyApp: React.FunctionComponent<UltraAppProps> = props => {
           pauseOnFocusLoss={false}
           hideProgressBar={false}
           newestOnTop={false}
+          closeOnClick
         />
       </ThemeProvider>
     </CacheProvider>

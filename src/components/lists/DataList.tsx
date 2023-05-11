@@ -1,8 +1,10 @@
+import { Info } from '@mui/icons-material';
 import {
   Box,
   Divider,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemText,
   Stack,
   Tooltip,
@@ -15,6 +17,7 @@ export interface ListItemData {
   primaryText?: React.ReactNode;
   children?: React.ReactNode;
   secondaryText?: React.ReactNode;
+  info?: boolean;
 }
 
 export interface DataListProps {
@@ -50,16 +53,27 @@ function DataList({ listItems, withDivider }: DataListProps) {
               sx={{}}
               primary={
                 item?.primaryText && (
-                  <Stack
-                    direction={'row'}
-                    spacing={2}
-                    gap={1}
-                    alignItems={'center'}
-                  >
-                    <Tooltip disableFocusListener arrow title={item.tooltip}>
+                  <Tooltip disableFocusListener arrow title={item.tooltip}>
+                    <Stack
+                      direction={'row'}
+                      spacing={2}
+                      gap={1}
+                      alignItems={'center'}
+                      width={'fit-content'}
+                    >
+                      {item?.info && (
+                        <ListItemAvatar>
+                          <Info
+                            sx={{
+                              color: 'primary.light',
+                              opacity: 0.5,
+                            }}
+                          />
+                        </ListItemAvatar>
+                      )}
                       <Box>{item.primaryText}</Box>
-                    </Tooltip>
-                  </Stack>
+                    </Stack>
+                  </Tooltip>
                 )
               }
               secondary={item?.secondaryText && item.secondaryText}

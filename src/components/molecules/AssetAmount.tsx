@@ -2,7 +2,7 @@ import { Typography, Avatar, Box } from '@mui/material';
 import { formatNumeralAbreviation } from '@ultra-alliance/ultra-sdk';
 
 interface AssetAmountProps {
-  amount?: number;
+  amount?: number | string;
   srcSet?: string;
   text?: string;
 }
@@ -15,7 +15,7 @@ const AssetAmount = ({
     <Typography>
       x{' '}
       <span style={{ fontWeight: 'bold' }}>
-        {formatNumeralAbreviation(amount)}
+        {formatNumeralAbreviation(parseFloat(amount as string))}
       </span>
     </Typography>
     <Avatar

@@ -6,6 +6,7 @@ import {
   Toolbar,
   Typography,
   Link,
+  Paper,
 } from '@mui/material';
 //import Footer from "./Footer";
 import Appbar from './Appbar';
@@ -13,6 +14,7 @@ import Sidebar from './Sidebar';
 import { DRAWER_WIDTH } from '@/constants/dimensions';
 import Footer from './Footer';
 import HTMLHead from '../HTMLHead';
+import { ultraColors } from '@ultra-alliance/uikit';
 // import { GuildModel } from "@/models/guild.model";
 
 interface AppProps {
@@ -74,50 +76,62 @@ export default function App(props: AppProps) {
             {children}
           </Container>
           <Divider sx={{ my: 3 }} />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'secondary.main',
-              color: 'white',
-              width: '100%',
-            }}
-          >
+          <Container>
             <Box
-              display={'flex'}
-              flexDirection={'column'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              width={'fit-content'}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'secondary.main',
+                color: 'white',
+                width: '100%',
+              }}
             >
-              <Typography
-                variant="overline"
-                textAlign={'center'}
-                color="inherit"
-                fontWeight="bold"
+              <Box
+                display={'flex'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                width={'fit-content'}
               >
-                Not endorsed by or affiliated with Ultra
-              </Typography>
-              <Typography variant="body2" color="inherit">
-                Made with 💜 by{' '}
-                <Link
-                  href="/"
-                  sx={{
-                    color: 'white',
-                    fontWeight: 'bold',
-                    textDecoration: 'none',
-                    '&:hover': {
-                      textDecoration: 'underline',
-                    },
-                  }}
+                <Typography
+                  variant="overline"
+                  textAlign={'center'}
+                  color="inherit"
+                  fontWeight="bold"
                 >
-                  Ultra Tech Alliance
-                </Link>{' '}
-                - {new Date().getFullYear()}
-              </Typography>
+                  Not endorsed by nor affiliated with Ultra
+                </Typography>
+
+                <Typography variant="body2" color="inherit">
+                  Made with 💜 by{' '}
+                  <Link
+                    href="/"
+                    sx={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      textDecoration: 'none',
+                      '&:hover': {
+                        textDecoration: 'underline',
+                      },
+                    }}
+                  >
+                    Ultra Tech Alliance
+                  </Link>{' '}
+                  - {new Date().getFullYear()}
+                </Typography>
+                <Typography
+                  variant="overline"
+                  textAlign={'center'}
+                  color="inherit"
+                  fontStyle={'italic'}
+                  fontSize={'0.7rem'}
+                >
+                  The Ultra logos are trademarks of Ultra Corporation
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+          </Container>
           <Divider sx={{ my: 3 }} />
 
           {footer && <Footer />}

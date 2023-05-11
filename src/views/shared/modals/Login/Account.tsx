@@ -20,12 +20,20 @@ import {
   Avatar,
   Chip,
   Typography,
+  MenuList,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import useBreakPoint from '@/hooks/useBreakpoint';
 import { useUltra } from '@ultra-alliance/react-ultra';
-import { formatName, formatUosBalance } from '@ultra-alliance/ultra-sdk';
+import {
+  formatName,
+  formatNumeralAbreviation,
+  formatUosBalance,
+} from '@ultra-alliance/ultra-sdk';
 import { toast } from 'react-toastify';
 import usePageRedirect from '@/hooks/usePageRedirect';
+import TransferUos from './TransferUos';
 
 export default function AvatarMenu() {
   const { logout, account } = useUltra();
@@ -42,7 +50,7 @@ export default function AvatarMenu() {
   };
 
   const onClickViewProfile = () => {
-    goToAccount(account?.account_name || '');
+    goToAccount(account?.data?.account_name || '');
     handleClose();
   };
 
@@ -52,6 +60,7 @@ export default function AvatarMenu() {
     }).then(() => {
       toast.success('Logged out');
     });
+
     handleClose();
   };
 
@@ -70,37 +79,84 @@ export default function AvatarMenu() {
     },
   ];
 
+  const renderUosBalance = (
+    <Stack direction="row" spacing={1} alignItems={'center'}>
+      <Avatar
+        variant="circular"
+        sx={{
+          height: 22,
+          width: 22,
+          fontSize: 10,
+          color: 'white',
+          fontWeight: 'bold',
+          bgcolor: 'primary.main',
+        }}
+      >
+        ᕫ
+      </Avatar>
+      <Typography
+        variant="overline"
+        sx={{
+          color: 'primary.light',
+        }}
+        fontWeight={'bold'}
+      >
+        <span style={{ textTransform: 'lowercase' }}>x </span>
+        {formatUosBalance(
+          account?.data?.core_liquid_balance?.split(' ')[0] || 0,
+        )}
+      </Typography>
+    </Stack>
+  );
+
+  const renderUniqsBalance = (
+    <Stack direction="row" spacing={1} alignItems={'center'}>
+      <Avatar
+        sx={{
+          height: 22,
+          width: 22,
+          fontSize: 10,
+          fontWeight: 'bold',
+          bgcolor: 'grey.600',
+        }}
+        srcSet="/uniq-icon.svg"
+        imgProps={{
+          sx: {
+            width: 17,
+            height: 17,
+          },
+        }}
+      />
+
+      <Typography
+        variant="overline"
+        sx={{
+          color: 'grey.300',
+        }}
+        fontWeight={'bold'}
+      >
+        <span style={{ textTransform: 'lowercase' }}>x </span>
+        {formatNumeralAbreviation(account?.ownedUniqs?.length)}
+      </Typography>
+    </Stack>
+  );
+
   return (
     <React.Fragment>
-      <Stack direction="row" spacing={1} alignItems={'center'}>
-        <Avatar
-          sx={{
-            display: isSm ? 'none' : 'flex',
-            height: 22,
-            width: 22,
-            fontSize: 10,
-            color: 'white',
-            fontWeight: 'bold',
-            bgcolor: 'primary.main',
-          }}
-        >
-          ᕫ
-        </Avatar>
-        <Typography variant="overline" display={isSm ? 'none' : 'block'}>
-          <span style={{ textTransform: 'lowercase' }}>x </span>
-          {formatUosBalance(account?.core_liquid_balance?.split(' ')[0] || 0)}
-        </Typography>
+      <Stack direction="row" spacing={2} alignItems={'center'}>
+        {!isSm && renderUniqsBalance}
+        {!isSm && <Divider orientation="vertical" flexItem />}
+        {!isSm && <TransferUos />}
+        {!isSm && <Divider orientation="vertical" flexItem />}
         <Button
           onClick={handleClick}
           startIcon={
             isSm ? null : (
               <Avatar
-                variant="rounded"
                 sx={{
                   height: 28,
                   width: 28,
                   mr: isSm ? 0 : 0.5,
-                  bgcolor: 'primary.light',
                 }}
               />
             )
@@ -111,30 +167,28 @@ export default function AvatarMenu() {
         >
           {isSm && account ? (
             <Avatar
-              variant="rounded"
               sx={{
                 height: 28,
                 width: 28,
                 mr: isSm ? 0 : 0.5,
-                bgcolor: 'primary.light',
               }}
             />
           ) : (
             formatName({
-              name: account?.account_name || '',
+              name: account?.data?.account_name || '',
               num: 3,
             })
           )}
         </Button>
       </Stack>
-
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
         onClose={handleClose}
         PaperProps={{
-          elevation: 0,
+          variant: 'elevation',
+          elevation: 2,
           sx: {
             overflow: 'visible',
             borderColor: 'divider',
@@ -142,29 +196,50 @@ export default function AvatarMenu() {
             borderStyle: 'solid',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
           },
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {menus.map((menu: any, index: number) => (
-          <div key={menu.name}>
-            <MenuItem
-              key={menu.name}
-              disabled={menu.disabled}
-              onClick={menu.onClick}
-            >
-              {menu.icon} {menu.name}
-            </MenuItem>
-            {menu.divider && <Divider />}
-          </div>
-        ))}
+        <MenuList disablePadding disableListWrap sx={{}}>
+          {menus.map((menu: any, index: number) => (
+            <div key={menu.name}>
+              <MenuItem
+                disabled={menu.disabled}
+                onClick={menu.onClick}
+                disableGutters
+                disableTouchRipple
+                sx={{
+                  mx: 0.5,
+                  px: 1,
+                  py: 1,
+                  borderRadius: 1,
+
+                  transition: '0.2s',
+                  '&:hover': {
+                    color: 'primary.light',
+                    backgroundColor: 'inherit',
+                    svg: {
+                      transition: '0.2s',
+
+                      color: 'primary.light',
+                    },
+                  },
+                  '&:active': {
+                    backgroundColor: 'primary.main',
+                    color: 'white',
+                    svg: {
+                      color: 'white',
+                    },
+                  },
+                }}
+              >
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText>{menu.name}</ListItemText>
+              </MenuItem>
+            </div>
+          ))}
+        </MenuList>
       </Menu>
     </React.Fragment>
   );

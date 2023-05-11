@@ -1,72 +1,186 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, Chip, Divider, Skeleton } from '@mui/material';
+import {
+  Avatar,
+  Button,
+  CardActionArea,
+  Chip,
+  Divider,
+  Fade,
+  Grow,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Skeleton,
+  Stack,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
-  formatCurrencyValue,
-  formatUosBalance,
-  type tListedUniq,
-  type tUniq,
+  type tFactory,
   type tManifest,
   tTokenA,
+  isUltraAccount,
+  tListedUniq,
+  formatCurrencyValue,
 } from '@ultra-alliance/ultra-sdk';
 import Image from 'next/image';
+import {
+  LocalGroceryStore,
+  RemoveRedEye,
+  Send,
+  Verified,
+} from '@mui/icons-material';
+import { UniqCreator } from '../atoms';
+import { ultraColors } from '@ultra-alliance/uikit';
+import { CURRENCIES, useUltra } from '@ultra-alliance/react-ultra';
 
 type OwnedUniqCardProps = {
   manifest?: tManifest;
-  uniq?: tUniq;
+  uniq?: tFactory;
   ownedUniq?: tTokenA;
-  onClick?: () => void;
+  hoverable?: boolean;
+  listingDetails?: tListedUniq | undefined;
+  onClickViewDetails: () => void;
+  onClickTransfer: () => void;
+  onClickResale: () => void;
+  onClickCancelResale: () => void;
+  withActions?: boolean;
+  viewDetailBtn?: boolean;
 };
 
 OwnedUniqCard.defaultProps = {
   manifest: undefined,
   uniq: undefined,
-  onClick: () => {},
+  hoverable: true,
+  listingDetails: undefined,
+  onClickViewDetails: () => {},
+  onClickTransfer: () => {},
+  onClickResale: () => {},
+  onClickCancelResale: () => {},
+  withActions: true,
+  viewDetailBtn: true,
 };
+
+interface CardListItemButtonProps {
+  primary?: React.ReactNode;
+  secondary?: React.ReactNode;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+}
+
+const CardListItemButton = ({
+  onClick,
+  primary,
+  secondary,
+  icon,
+}: CardListItemButtonProps) => (
+  <ListItemButton
+    onClick={onClick}
+    sx={{
+      fontWeight: 'bold',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+    disableTouchRipple
+  >
+    <ListItemAvatar>{icon}</ListItemAvatar>
+    <ListItemText
+      primaryTypographyProps={{
+        fontWeight: 'bold',
+      }}
+      primary={primary}
+      secondary={secondary}
+    />
+  </ListItemButton>
+);
 
 export default function OwnedUniqCard({
   manifest,
   uniq,
-  onClick,
   ownedUniq,
+  hoverable,
+  listingDetails,
+  onClickViewDetails,
+  onClickTransfer,
+  onClickResale,
+  onClickCancelResale,
+  withActions,
+  viewDetailBtn,
 }: OwnedUniqCardProps) {
   const theme = useTheme();
+  const [isHovered, setIsHovered] = React.useState(false);
+  const { account } = useUltra();
+
+  const handleHover = () => setIsHovered(curr => !curr);
+
+  const menus: CardListItemButtonProps[] = [];
+  if (viewDetailBtn) {
+    menus.push({
+      onClick: () => onClickViewDetails(),
+      primary: 'View details',
+      icon: <RemoveRedEye />,
+    });
+  }
+  if (withActions) {
+    menus.push({
+      onClick: () => onClickTransfer(),
+      primary: 'Transfer Uniq',
+      icon: <Send />,
+    });
+
+    if (listingDetails !== undefined) {
+      menus.push({
+        onClick: () => onClickCancelResale(),
+        primary: 'Cancel Resale',
+        icon: <LocalGroceryStore />,
+      });
+    } else {
+      menus.push({
+        onClick: () => onClickResale(),
+        primary: 'Resale Uniq',
+        icon: <LocalGroceryStore />,
+      });
+    }
+  }
+
   return (
     <Box position={'relative'}>
       <Card
+        onMouseEnter={handleHover}
+        onMouseLeave={handleHover}
         variant="elevation"
         elevation={2}
         sx={{
           border: '1px solid',
-          borderColor: theme => theme.palette.divider,
+          borderColor: theme =>
+            uniq?.max_mintable_tokens === 1 ? '#786d31' : theme.palette.divider,
           boxShadow: theme => theme.shadows[1],
-          backgroundSize: 'contain !important',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
           '&:hover': {
-            transition: 'all 0.2s ease',
-            borderColor: theme => theme.palette.primary.light,
+            transition: 'all 0.35s ease',
+            borderColor: hoverable
+              ? uniq?.max_mintable_tokens === 1
+                ? '#f1d329'
+                : theme.palette.primary.light
+              : '',
+            transform: 'scale(1.04)',
           },
         }}
       >
         <CardActionArea
-          onClick={onClick}
+          disableTouchRipple
           sx={{
             boxShadow: 'inset 0px 0px 0px 2px rgba(0,0,0,0.3)',
-            background: theme =>
-              `linear-gradient(to top, ${
-                theme.palette.background.default
-              } 50%, transparent 200%), url(${
-                manifest?.media.images.square ?? ''
-              })
-            })`,
+            background: ultraColors.eclipseTwilight,
+            transition: 'all 0.35s ease',
+            filter: isHovered && hoverable ? 'blur(25px)' : 'blur(0px)',
           }}
         >
           <Box
@@ -81,9 +195,10 @@ export default function OwnedUniqCard({
             {!manifest?.media?.images?.square ? (
               <Skeleton
                 variant="rectangular"
-                width={'100%'}
                 sx={{
                   aspectRatio: '1',
+                  width: '30%',
+                  height: 'auto',
                 }}
               />
             ) : (
@@ -122,77 +237,113 @@ export default function OwnedUniqCard({
                 manifest?.subName
               )}
             </Typography>
-            <Divider sx={{ py: 1 }} />
             <Typography
-              sx={{
-                pt: 1,
-                color: 'white',
-              }}
-              component={'div'}
-              textAlign="center"
-              fontWeight={'bold'}
+              textAlign={'center'}
               variant="overline"
+              color="text.secondary"
+              component="div"
             >
-              {!uniq?.asset_creator ? (
-                <Skeleton width={'100%'} />
-              ) : (
-                <>
-                  <span style={{ fontWeight: 'normal' }}>by</span>{' '}
-                  {uniq.asset_creator}
-                </>
-              )}{' '}
+              N°{ownedUniq?.serial_number ?? '∞'} / {uniq?.max_mintable_tokens}
             </Typography>
-            <Typography
-              sx={{
-                my: -1,
-              }}
-              component={'div'}
-              textAlign="center"
-              variant="overline"
-            >
-              {!uniq?.asset_creator ? (
-                <Skeleton width={'100%'} />
-              ) : (
-                <>
-                  N°{ownedUniq?.serial_number} / {uniq?.max_mintable_tokens}
-                </>
-              )}{' '}
-            </Typography>
+            <UniqCreator name={uniq?.asset_creator} visible={true} />
           </CardContent>
         </CardActionArea>
+        <Fade in={isHovered && hoverable} unmountOnExit>
+          <Stack
+            direction={'column'}
+            sx={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 2,
+              p: 1,
+              zIndex: 1000,
+              filter: 'none',
+              bgcolor: ultraColors.eclipseTwilight,
+            }}
+          >
+            <List
+              sx={{
+                width: '100%',
+                '& .MuiListItemButton-root:hover': {
+                  color: 'primary.light',
+                },
+              }}
+            >
+              {menus?.map((menu, index) => (
+                <CardListItemButton
+                  key={index}
+                  onClick={menu.onClick}
+                  primary={menu.primary}
+                  secondary={menu.secondary}
+                  icon={menu.icon}
+                />
+              ))}
+            </List>
+          </Stack>
+        </Fade>
       </Card>
-      <Box
-        sx={{
-          position: 'absolute',
-          display: 'flex',
-          top: '-5px',
-          left: '-5px',
-        }}
-      >
-        <Chip
-          size="small"
-          variant="filled"
-          label={
-            manifest?.type &&
-            manifest.type.charAt(0)?.toUpperCase() +
-              manifest.type.slice(1) +
-              ' #' +
-              ownedUniq?.id
-          }
+      <Grow in={isHovered}>
+        <Box
           sx={{
-            backgroundColor: '#737373',
-            boxShadow: theme => theme.shadows[2],
+            position: 'absolute',
+            display: 'flex',
+            top: '-10px',
+            left: '-10px',
           }}
-          icon={
-            <Image
-              src="/uniq-icon.svg"
-              width={20}
-              height={20}
-              alt="uniq icon"
-            />
-          }
-        />
-      </Box>
+        >
+          <Chip
+            size="small"
+            variant="filled"
+            label={manifest?.type && ' #' + ownedUniq?.id}
+            sx={{
+              backgroundColor: '#737373',
+              boxShadow: theme => theme.shadows[2],
+            }}
+            icon={
+              <Image
+                src="/uniq-icon.svg"
+                width={20}
+                height={20}
+                alt="uniq icon"
+              />
+            }
+          />
+        </Box>
+      </Grow>
+
+      {listingDetails && (
+        <Box
+          sx={{
+            transition: 'all 0.35s ease',
+            position: 'absolute',
+            display: 'flex',
+
+            top: isHovered ? '-10px' : '-8px',
+            right: isHovered ? '-10px' : '-8px',
+            transform: isHovered ? 'scale(1.04)' : '',
+          }}
+        >
+          <Chip
+            size="small"
+            variant="filled"
+            label={formatCurrencyValue({
+              value: listingDetails?.price,
+              ticker: CURRENCIES[0].symbol,
+            })}
+            sx={{
+              fontWeight: 'bold',
+              backgroundColor: 'error.light',
+              '& span': {},
+            }}
+          />
+        </Box>
+      )}
     </Box>
   );
 }

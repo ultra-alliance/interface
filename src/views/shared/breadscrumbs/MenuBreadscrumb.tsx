@@ -17,7 +17,7 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 export default function MenuBreadscrumb() {
   const { goToHome } = usePageRedirect();
   const params = useRouter();
-  const { uniqId } = params.query;
+  const { factoryID } = params.query;
   return (
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs aria-label="breadcrumb">
@@ -38,8 +38,8 @@ export default function MenuBreadscrumb() {
             Ultra Alliance
           </Typography>
         </Link>
-        {uniqId && (
-          <Typography color="text.primary">Factory #{uniqId}</Typography>
+        {factoryID && (
+          <Typography color="text.primary">Factory #{factoryID}</Typography>
         )}
       </Breadcrumbs>
     </div>

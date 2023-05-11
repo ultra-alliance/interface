@@ -4,13 +4,19 @@ import { useRouter } from 'next/router';
 enum PagePaths {
   HOME = '/',
   ACCOUNT = '/accounts',
-  UNIQS = '/uniqs',
+  FACTORIES = '/factories',
+  LISTED = '/listed',
+  RAFFLES = '/raffles',
 }
 
 interface RedirectFunctions {
   goToHome: () => void;
   goToAccount: (accountID: string) => void;
-  goToUniq: (uniqId: tValidInput) => void;
+  goToFactory: (factoryID: tValidInput) => void;
+  goToFactories: () => void;
+  gotToListed: () => void;
+  goToRaffles: () => void;
+  goToRaffle: (raffleID: tValidInput) => void;
   // Add more functions as needed
 }
 
@@ -25,8 +31,24 @@ const usePageRedirect = (): RedirectFunctions => {
     router.push(`${PagePaths.ACCOUNT}/${accountID}`);
   };
 
-  const goToUniq = (uniqId: tValidInput) => {
-    router.push(`${PagePaths.UNIQS}/${uniqId}`);
+  const goToFactory = (factoryID: tValidInput) => {
+    router.push(`${PagePaths.FACTORIES}/${factoryID}`);
+  };
+
+  const goToFactories = () => {
+    router.push(PagePaths.FACTORIES);
+  };
+
+  const gotToListed = () => {
+    router.push(PagePaths.LISTED);
+  };
+
+  const goToRaffles = () => {
+    router.push(PagePaths.RAFFLES);
+  };
+
+  const goToRaffle = (raffleID: tValidInput) => {
+    router.push(`${PagePaths.RAFFLES}/${raffleID}`);
   };
 
   // Add more functions as needed
@@ -34,7 +56,11 @@ const usePageRedirect = (): RedirectFunctions => {
   return {
     goToHome,
     goToAccount,
-    goToUniq,
+    goToFactory,
+    goToFactories,
+    gotToListed,
+    goToRaffles,
+    goToRaffle,
     // Return other functions here as needed
   };
 };

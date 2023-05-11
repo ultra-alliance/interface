@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import InfoCard from '@/components/molecules/InfoCard';
 import OwnedUniqCard from '@/components/molecules/OwnedUniqCard';
 import {
@@ -16,31 +16,44 @@ import {
 } from '@mui/material';
 import { useUltra, useUltraQuery } from '@ultra-alliance/react-ultra';
 import {
+  formatNumeralAbreviation,
   formatTimeSinceNow,
-  tGetUniqManifested,
-  tGetUniqOwnedOutput,
+  tGetFactoryManifested,
   tTokenA,
-  tUniqManifested,
+  tFactoryManifested,
 } from '@ultra-alliance/ultra-sdk';
 import AssetAmount from '@/components/molecules/AssetAmount';
 import useBreakPoint from '@/hooks/useBreakpoint';
 import usePagination from '@/hooks/usePagination';
 import { LoadingIndicator } from '@/components';
 import usePageRedirect from '@/hooks/usePageRedirect';
+import ListUniq from '@/views/shared/modals/ListUniq/ListUniq';
+import { useRouter } from 'next/router';
+import { tListedUniq } from '@ultra-alliance/ultra-sdk';
+import { toast } from 'react-toastify';
+import TransferUniq from '@/views/shared/modals/TransferUniq/TransferUniq';
 
 interface UniqsInInventoryProps {
-  uniqsOwned?: tGetUniqOwnedOutput['rows'];
+  uniqsOwned?: tTokenA[];
+  withActions?: boolean;
+  withViewButton?: boolean;
+  onActionComplete?: () => void;
 }
 
-type tUniqsDetail = {
+export type tUniqsDetail = {
   uniq: tTokenA;
-  manifested: tUniqManifested;
+  manifested: tFactoryManifested;
+  listingDetails: tListedUniq | undefined;
 };
 
 interface UniqListZoneProps<T> {
   date: string;
   uniqs: T[];
   index: number;
+  redirect?: boolean;
+  onSuccessList: () => void;
+  withActions?: boolean;
+  withViewButton?: boolean;
 }
 
 type tGroupedUniqsOwned<T> = {
@@ -57,38 +70,107 @@ const UniqListZone = ({
   date,
   uniqs,
   index,
+  redirect,
+  onSuccessList,
+  withActions,
+  withViewButton,
 }: UniqListZoneProps<tUniqsDetail>) => {
-  const { goToUniq } = usePageRedirect();
+  const { ultra, refreshAccount } = useUltra();
+  const { goToFactory } = usePageRedirect();
+  const [listedUniq, setListedUniq] = useState<number | undefined>(undefined);
+  const [transferedUniq, setTransferedUniq] = useState<number | undefined>(
+    undefined,
+  );
+
+  const onClickCancelResell = async (token_id: number) => {
+    if (!token_id || !ultra) return;
+    ultra.account
+      .cancelResellUniq({
+        token_id,
+      })
+      .then(() => {
+        toast.success('Uniq successfully unlisted');
+        onSuccessList();
+      })
+      .catch(() => {
+        toast.error('Failed to unlist Uniq');
+      });
+  };
+
   return (
-    <Grow key={`${date}-${index}`} in={true}>
-      <Box>
-        <Divider sx={{ mb: 2 }} variant="fullWidth">
-          {`Minted ${formatTimeSinceNow(uniqs[0].uniq.mint_date)}`}
-        </Divider>
-        <Grid container spacing={2}>
-          {uniqs.map(uniq => {
-            return (
-              <Grid item xs={12} sm={6} md={4} key={uniq.uniq.id}>
-                <OwnedUniqCard
-                  onClick={() => goToUniq(uniq.uniq.token_factory_id)}
-                  uniq={uniq.manifested.uniq}
-                  manifest={uniq.manifested.manifest}
-                  ownedUniq={uniq.uniq}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Box>
-    </Grow>
+    <React.Fragment>
+      <Grow key={`${date}-${index}`} in={true}>
+        <Box>
+          <Divider sx={{ mb: 2 }} variant="fullWidth">
+            {`Minted ${formatTimeSinceNow(uniqs[0].uniq.mint_date)}`}
+          </Divider>
+          <Grid container spacing={2}>
+            {uniqs.map((uniq, index) => {
+              return (
+                <Grid item xs={12} sm={6} md={4} key={uniq.uniq.id}>
+                  <OwnedUniqCard
+                    withActions={withActions}
+                    onClickViewDetails={() => {
+                      goToFactory(uniq.uniq.token_factory_id);
+                    }}
+                    onClickResale={() => {
+                      setListedUniq(index);
+                    }}
+                    onClickCancelResale={() =>
+                      onClickCancelResell(uniqs[index].uniq.id)
+                    }
+                    onClickTransfer={() => {
+                      setTransferedUniq(index);
+                    }}
+                    uniq={uniq.manifested.data}
+                    manifest={uniq.manifested.manifest}
+                    ownedUniq={uniq.uniq}
+                    listingDetails={uniq?.listingDetails}
+                    viewDetailBtn={withViewButton}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
+      </Grow>
+      {listedUniq !== undefined && (
+        <ListUniq
+          open={listedUniq !== undefined}
+          onClose={() => {
+            setListedUniq(undefined);
+          }}
+          uniq={uniqs[listedUniq]}
+          onSuccessList={() => onSuccessList()}
+        />
+      )}
+
+      {transferedUniq !== undefined && (
+        <TransferUniq
+          open={transferedUniq !== undefined}
+          onClose={() => {
+            setTransferedUniq(undefined);
+          }}
+          uniq={uniqs[transferedUniq]}
+          onSuccessTransfer={async () => {
+            await refreshAccount();
+            onSuccessList();
+          }}
+        />
+      )}
+    </React.Fragment>
   );
 };
 
 export default function UniqsInInventory({
   uniqsOwned,
+  withActions,
+  withViewButton,
+  onActionComplete,
 }: UniqsInInventoryProps) {
   const { ultra } = useUltra();
   const { isSm } = useBreakPoint();
+  const { factoryID, accountID } = useRouter().query;
 
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
@@ -119,7 +201,7 @@ export default function UniqsInInventory({
     tGroupedUniqsOwned<tTokenA>
   >({
     items: groupedUniqsOwned || [],
-    itemsPerPage: 4,
+    itemsPerPage: 2,
   });
 
   const handleSortOrderChange = (event: SelectChangeEvent<'asc' | 'desc'>) => {
@@ -140,13 +222,32 @@ export default function UniqsInInventory({
           uniqs: [],
         };
         for (const uniq of uniqs) {
-          const manifested = await ultra?.getUniqManifested(
+          const manifested = await ultra?.api.getFactoryManifested(
             uniq.token_factory_id,
+            {
+              square: true,
+            },
           );
+
+          const listingDetails =
+            (
+              await ultra?.api?.getTableRows<tListedUniq>({
+                code: 'eosio.nft.ft',
+                scope: 'eosio.nft.ft',
+                table: 'resale.a',
+                config: {
+                  lowerBound: uniq.id,
+                  upperBound: uniq.id,
+                  limit: 1,
+                },
+              })
+            )?.rows[0] || undefined;
+
           if (manifested) {
             newGroupDetailed.uniqs.push({
               uniq,
               manifested,
+              listingDetails: listingDetails,
             });
           }
         }
@@ -162,10 +263,14 @@ export default function UniqsInInventory({
     if (!isLoadingDetails) {
       fetchUniqsDetails();
     }
-  }, [currentPage, sortOrder]);
+  }, [currentPage, sortOrder, accountID]);
 
   return (
-    <InfoCard title="Uniqs in Inventory">
+    <InfoCard
+      title={`${formatNumeralAbreviation(
+        uniqsOwned?.length,
+      )} Uniqs in Inventory`}
+    >
       <Stack direction={'column'} gap={2} padding={2}>
         <Stack
           direction={isSm ? 'column' : 'row'}
@@ -224,6 +329,13 @@ export default function UniqsInInventory({
               key={group?.date}
               date={group?.date}
               uniqs={group?.uniqs}
+              redirect={factoryID === undefined}
+              onSuccessList={() => {
+                fetchUniqsDetails();
+                if (onActionComplete) onActionComplete();
+              }}
+              withActions={withActions}
+              withViewButton={withViewButton}
             />
           ))
         ) : (

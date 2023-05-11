@@ -22,19 +22,13 @@ InfoCard.defaultProps = {
 
 function InfoCard({ children, title }: InfoCardProps) {
   return (
-    <Box
-      sx={{
-        boxShadow: theme => theme.shadows[5],
-      }}
-    >
+    <Box sx={{}}>
       <Card
         variant="elevation"
-        elevation={3}
+        elevation={0}
         sx={{
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
-          border: '1px solid',
-          borderColor: 'divider',
 
           borderBottom: 'none',
         }}
@@ -44,8 +38,6 @@ function InfoCard({ children, title }: InfoCardProps) {
             px: 2,
             py: 1,
             display: 'flex',
-            borderBottom: '1px solid',
-            borderColor: 'divider',
           }}
         >
           <Typography fontWeight={'bold'} variant="subtitle1" component="h1">
@@ -57,9 +49,10 @@ function InfoCard({ children, title }: InfoCardProps) {
         sx={{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
+          bgcolor: 'transparent',
+          border: '0px',
         }}
         variant="outlined"
-        elevation={1}
       >
         {children}
       </Card>

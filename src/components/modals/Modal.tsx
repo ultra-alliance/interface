@@ -8,6 +8,7 @@ import {
   Divider,
   Stack,
   IconButton,
+  Toolbar,
 } from '@mui/material/';
 import { AccountBoxRounded, CloseRounded } from '@mui/icons-material';
 import useBreakPoint from '@/hooks/useBreakpoint';
@@ -18,7 +19,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: 'background.paper',
+  bgcolor: 'background.default',
   border: '1px solid',
   borderColor: 'divider',
   boxShadow: 24,
@@ -32,54 +33,77 @@ const mobileStyle = {
   left: '0%',
   width: '100vw',
   minHeight: '100vh',
-  bgcolor: 'background.paper',
+  bgcolor: 'background.default',
   border: 'none',
   borderColor: 'transparent',
   boxShadow: 0,
   borderRadius: 0,
-  overflow: 'hidden' as 'hidden',
+  overflow: 'scroll' as 'scroll',
 };
 
 type ModalProps = MuiModalProps & {
-  title: string;
+  title?: string;
+  fullWidth?: boolean;
+  header?: React.ReactNode;
 };
 
 Modal.defaultProps = {
   title: 'Modal',
+  fullWidth: false,
   children: <Typography>Modal content</Typography>,
 };
 
-export default function Modal({ title, ...props }: ModalProps) {
+export default function Modal({
+  title,
+  fullWidth,
+  header,
+  ...props
+}: ModalProps) {
   const { isSm } = useBreakPoint();
   return (
-    <MuiModal {...props}>
+    <MuiModal
+      slotProps={{
+        backdrop: {
+          sx: {
+            backdropFilter: 'blur(20px)',
+          },
+        },
+      }}
+      {...props}
+    >
       <React.Fragment>
-        <Box sx={isSm ? mobileStyle : style}>
-          <Stack
-            direction="row"
-            justifyContent={'space-between'}
-            alignItems="center"
-            padding={2}
-          >
-            <Typography
-              paddingLeft={4}
-              variant="h6"
-              component="h2"
-              fontWeight={'bold'}
+        <Box sx={isSm || fullWidth ? mobileStyle : style}>
+          {header || (
+            <Stack
+              direction="row"
+              justifyContent={'space-between'}
+              alignItems="center"
+              padding={2}
             >
-              {title}
-            </Typography>
-            <IconButton
-              onClick={() => {
-                if (props.onClose) {
-                  props.onClose({}, 'backdropClick');
-                }
-              }}
-            >
-              <CloseRounded />
-            </IconButton>
-          </Stack>
+              <Typography
+                paddingLeft={4}
+                variant="h6"
+                component="h2"
+                fontWeight={'bold'}
+              >
+                {title}
+              </Typography>
+              <IconButton
+                onClick={() => {
+                  if (props.onClose) {
+                    props.onClose({}, 'backdropClick');
+                  }
+                }}
+                sx={{
+                  borderRadius: 2,
+                }}
+              >
+                <CloseRounded />
+              </IconButton>
+            </Stack>
+          )}
           <Divider />
+          {header && <Toolbar sx={{ mb: isSm ? 0 : 6 }} />}
           {props.children}
         </Box>
       </React.Fragment>

@@ -27,7 +27,7 @@ export default function PriceDisplayRatio({
   const theme = useTheme();
 
   return (
-    <Typography variant="h6" fontWeight="bold">
+    <Typography variant="subtitle1" fontWeight="bold" textAlign={'center'}>
       {!coreLiquidityBalance || !baseCurrency || !uosPriceInBaseCurrency ? (
         <Skeleton
           variant="text"
@@ -39,7 +39,10 @@ export default function PriceDisplayRatio({
       ) : (
         <>
           <span style={{ color: theme.palette.primary.light }}> ᕫ </span>
-          {formatUosBalance(coreLiquidityBalance)}
+          {formatCurrencyValue({
+            value: coreLiquidityBalance,
+          })}
+          <br />
           <span
             style={{
               display: baseCurrency?.ticker === 'UOS' ? 'none' : '',
@@ -49,14 +52,13 @@ export default function PriceDisplayRatio({
               fontSize: 14,
             }}
           >
-            {' '}
-            / {baseCurrency.symbol}{' '}
+            ≈{' '}
             {formatCurrencyValue({
               value: calcTotalPrice({
                 basePrice: uosPriceInBaseCurrency,
                 balance: coreLiquidityBalance,
               }),
-              ticker: '',
+              ticker: baseCurrency?.symbol,
             })}
           </span>
         </>

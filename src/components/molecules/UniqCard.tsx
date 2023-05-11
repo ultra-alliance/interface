@@ -6,20 +6,23 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CardActionArea, Chip, Divider, Skeleton } from '@mui/material';
+import { CardActionArea, Chip, Divider, Skeleton, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import {
   formatCurrencyValue,
   formatUosBalance,
   type tListedUniq,
-  type tUniq,
+  type tFactory,
   type tManifest,
+  isUltraAccount,
 } from '@ultra-alliance/ultra-sdk';
 import Image from 'next/image';
+import { Verified } from '@mui/icons-material';
+import UniqCreator from '../atoms/UniqCreator';
 
 type UniqCardProps = {
   manifest?: tManifest;
-  uniq?: tUniq;
+  uniq?: tFactory;
   onClick?: () => void;
 };
 
@@ -30,7 +33,6 @@ UniqCard.defaultProps = {
 };
 
 export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
-  const theme = useTheme();
   return (
     <Box position={'relative'}>
       <Card
@@ -40,6 +42,9 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
           border: '1px solid',
           borderColor: theme => theme.palette.divider,
           boxShadow: theme => theme.shadows[1],
+          background: theme =>
+            `linear-gradient(180deg, rgba(150,150,150,0.1) 0%, rgba(150,150,150,0) 100%), linear-gradient(180deg, #3c3846 0%,  #3c3846 100%)`,
+
           '&:hover': {
             transition: 'all 0.2s ease',
             borderColor: theme => theme.palette.primary.light,
@@ -59,6 +64,8 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
                 width={'100%'}
                 sx={{
                   aspectRatio: '1',
+                  width: '100%',
+                  height: 'auto',
                 }}
               />
             ) : (
@@ -76,6 +83,7 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
             )}
           </Box>
           <CardContent>
+            {manifest?.media?.images?.product}
             <Typography
               textAlign={'center'}
               variant="h6"
@@ -97,25 +105,7 @@ export default function UniqCard({ manifest, uniq, onClick }: UniqCardProps) {
               )}
             </Typography>
             <Divider sx={{ py: 1 }} />
-            <Typography
-              sx={{
-                pt: 1,
-                color: 'white',
-              }}
-              component={'div'}
-              textAlign="center"
-              fontWeight={'bold'}
-              variant="overline"
-            >
-              {!uniq?.asset_creator ? (
-                <Skeleton width={'100%'} />
-              ) : (
-                <>
-                  <span style={{ fontWeight: 'normal' }}>by</span>{' '}
-                  {uniq.asset_creator}
-                </>
-              )}{' '}
-            </Typography>
+            <UniqCreator name={uniq?.asset_creator} />
           </CardContent>
         </CardActionArea>
       </Card>

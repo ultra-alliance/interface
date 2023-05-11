@@ -9,6 +9,8 @@ package-lock.json
 */.DS_Store
 */.env
 dist
+.certs/
+certificates/
 
 # Next.js
 .next

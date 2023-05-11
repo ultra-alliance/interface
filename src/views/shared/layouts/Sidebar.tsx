@@ -7,6 +7,10 @@ import {
   PageviewRounded,
   ViewCarouselRounded,
   HomeRepairService,
+  PointOfSale,
+  Factory,
+  LocalGroceryStore,
+  Casino,
 } from '@mui/icons-material';
 import {
   Avatar,
@@ -25,6 +29,7 @@ import {
 } from '@mui/material';
 import { DRAWER_WIDTH } from '@/constants/dimensions';
 import { LINKS } from '@ultra-alliance/ultra-sdk';
+import usePageRedirect from '@/hooks/usePageRedirect';
 
 type SideBarProps = {
   open?: boolean;
@@ -48,8 +53,111 @@ Sidebar.defaultProps = {
   container: undefined,
 };
 
+type tListItem = {
+  disabled?: boolean;
+  tooltip: string;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+  imgSrc?: string;
+  link?: string;
+};
+
 export default function Sidebar(props: SideBarProps) {
   const theme = useTheme();
+  const { goToFactories, gotToListed, goToRaffles } = usePageRedirect();
+
+  const list: tListItem[] = [
+    {
+      disabled: true,
+      tooltip: 'Ultra Raffles',
+      icon: (
+        <Avatar
+          sx={{
+            backgroundColor: 'primary.main',
+            color: 'white',
+            fontWeight: 'bold',
+          }}
+          variant="rounded"
+        >
+          <Casino />
+        </Avatar>
+      ),
+      onClick: () => {
+        goToRaffles();
+      },
+    },
+    {
+      tooltip: 'Uniq Factories',
+      icon: (
+        <Avatar
+          sx={{
+            backgroundColor: 'primary.main',
+            color: 'white',
+            fontWeight: 'bold',
+          }}
+          variant="rounded"
+        >
+          <Factory />
+        </Avatar>
+      ),
+      onClick: () => {
+        goToFactories();
+      },
+    },
+    {
+      tooltip: 'Uniq for sale',
+      icon: (
+        <Avatar
+          sx={{
+            backgroundColor: 'primary.main',
+            color: 'white',
+            fontWeight: 'bold',
+          }}
+          variant="rounded"
+        >
+          <LocalGroceryStore />
+        </Avatar>
+      ),
+      onClick: () => {
+        gotToListed();
+      },
+    },
+    {
+      tooltip: 'Ultra Times',
+      link: LINKS.ULTRA_TIMES,
+      imgSrc: '/ultra-times.png',
+    },
+    {
+      tooltip: 'Ultra is Life',
+      link: LINKS.ULTRA_IS_LIFE,
+      imgSrc: '/ultra-is-life.png',
+    },
+    {
+      tooltip: 'U Merch ',
+      link: 'https://www.umerch.xyz',
+      imgSrc: '/umerch.png',
+    },
+    {
+      tooltip: 'Ultra Documentation',
+      icon: <Article />,
+      link: LINKS.ULTRA_DOCS,
+    },
+    {
+      tooltip: 'Ultra Block Explorer',
+      icon: <ViewCarouselRounded />,
+      link: LINKS.ULTRA_EXPLORER,
+    },
+    {
+      tooltip: 'Ultra Faucet',
+      icon: <PointOfSale />,
+      link: 'https://faucet.testnet.app.ultra.io',
+    },
+    {
+      tooltip: 'Ultra Ecosystem Links',
+      icon: <HomeRepairService />,
+      link: 'https://ultraio.freshdesk.com/support/solutions/articles/80001069021',
+    },
+  ];
 
   const renderDrawerHeader = () => {
     return (
@@ -81,15 +189,23 @@ export default function Sidebar(props: SideBarProps) {
 
   const renderListItem = (
     title: string,
-    icon: any,
-    link: string,
+    icon?: any,
+    link?: string,
     imageSrc?: string,
+    onClick?: () => void,
+    disabled?: boolean,
   ) => {
     return (
-      <Tooltip title={title} placement="right" arrow>
+      <Tooltip title={!disabled && title} placement="right" arrow>
         <ListItem disablePadding sx={{ display: 'block' }}>
           <ListItemButton
-            href={link}
+            disabled={disabled}
+            href={link ?? ''}
+            onClick={() => {
+              if (onClick) {
+                onClick();
+              }
+            }}
             target="_blank"
             sx={{
               minHeight: 48,
@@ -114,11 +230,6 @@ export default function Sidebar(props: SideBarProps) {
                     fontWeight: 'bold',
                   }}
                   variant="rounded"
-                  imgProps={{
-                    style: {
-                      borderRadius: '50%',
-                    },
-                  }}
                   srcSet={imageSrc}
                 ></Avatar>
               ) : (
@@ -176,41 +287,6 @@ export default function Sidebar(props: SideBarProps) {
     );
   };
 
-  const renderSearchListItem = (text: string) => {
-    const icon =
-      text === 'Ultra Documentation' ? (
-        <Article fontSize="large" />
-      ) : (
-        <PageviewRounded fontSize="large" />
-      );
-    return (
-      <Tooltip key={text} title={text} placement="right" arrow>
-        <ListItem disablePadding sx={{ display: 'block' }}>
-          <ListItemButton
-            selected={text === 'Search'}
-            sx={{
-              minHeight: 48,
-              justifyContent: 'center',
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: 'auto',
-                justifyContent: 'center',
-                color: 'white',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {icon}
-            </ListItemIcon>
-          </ListItemButton>
-        </ListItem>
-      </Tooltip>
-    );
-  };
-
   const renderDrawer = () => {
     return (
       <div>
@@ -233,39 +309,20 @@ export default function Sidebar(props: SideBarProps) {
           </ListItem>
         </Toolbar>
 
-        <Divider />
         <List>
-          {renderListItem(
-            'Ultra Times',
-            undefined,
-            LINKS.ULTRA_TIMES,
-            'https://pbs.twimg.com/profile_images/1569433807580708867/JXHPG6Fa_400x400.jpg',
+          {list?.map((item: any) =>
+            renderListItem(
+              item.tooltip,
+              item.icon,
+              item.link,
+              item.imgSrc,
+              item.onClick,
+              item.disabled,
+            ),
           )}
-          {renderListItem(
-            'Ultra is Life',
-            undefined,
-            LINKS.ULTRA_IS_LIFE,
-            'https://www.ultraislife.com/en/assets/icons/icon-72x72.png',
-          )}
-          {renderListItem(
-            'Ultra Documentation',
-            <Article />,
-            LINKS.ULTRA_DOCS,
-            undefined,
-          )}
-          {renderListItem(
-            'Ultra Block Explorer',
-            <ViewCarouselRounded />,
-            LINKS.ULTRA_EXPLORER,
-            undefined,
-          )}
-          {renderListItem(
-            'Ultra Ecosystem Links',
-            <HomeRepairService />,
-            'https://ultraio.freshdesk.com/support/solutions/articles/80001069021',
-            undefined,
-          )}
+
           <Divider />
+
           {props.guilds?.map((guild: any, index: number) =>
             renderGuildListItem(guild, index),
           )}
@@ -292,7 +349,7 @@ export default function Sidebar(props: SideBarProps) {
         sx={{
           display: { xs: 'block', sm: 'block', md: 'none' },
           '& .MuiDrawer-paper': {
-            bgcolor: 'background.default',
+            bgcolor: 'background.paper',
             boxSizing: 'border-box',
             width: DRAWER_WIDTH,
           },
@@ -307,6 +364,7 @@ export default function Sidebar(props: SideBarProps) {
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: DRAWER_WIDTH,
+            bgcolor: 'background.paper',
           },
         }}
         open
