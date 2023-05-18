@@ -7,6 +7,14 @@ import {
   Typography,
   Link,
   Paper,
+  Grid,
+  Button,
+  List,
+  ListItemButton,
+  ListItemAvatar,
+  ListItemText,
+  ListItem,
+  Avatar,
 } from '@mui/material';
 //import Footer from "./Footer";
 import Appbar from './Appbar';
@@ -15,6 +23,9 @@ import { DRAWER_WIDTH } from '@/constants/dimensions';
 import Footer from './Footer';
 import HTMLHead from '../HTMLHead';
 import { ultraColors } from '@ultra-alliance/uikit';
+import { UosBackground } from '@/components/anims';
+import { Twitter } from '@mui/icons-material';
+import useBreakPoint from '@/hooks/useBreakpoint';
 // import { GuildModel } from "@/models/guild.model";
 
 interface AppProps {
@@ -34,6 +45,7 @@ App.defaultProps = {
 };
 
 export default function App(props: AppProps) {
+  const { isSm } = useBreakPoint();
   const { window, children, footer } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -71,66 +83,148 @@ export default function App(props: AppProps) {
             ml: { md: `${DRAWER_WIDTH}px` },
           }}
         >
-          <Container sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Container
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 3,
+            }}
+          >
             <Toolbar />
             {children}
           </Container>
           <Divider sx={{ my: 3 }} />
           <Container>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'secondary.main',
-                color: 'white',
-                width: '100%',
-              }}
-            >
-              <Box
-                display={'flex'}
-                flexDirection={'column'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                width={'fit-content'}
-              >
-                <Typography
-                  variant="overline"
-                  textAlign={'center'}
-                  color="inherit"
-                  fontWeight="bold"
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'secondary.main',
+                    color: 'white',
+                    width: '100%',
+                  }}
                 >
-                  Not endorsed by nor affiliated with Ultra
-                </Typography>
+                  <Box
+                    display={'flex'}
+                    flexDirection={'column'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    width={'fit-content'}
+                  >
+                    <Typography
+                      variant="overline"
+                      textAlign={'center'}
+                      color="inherit"
+                      fontWeight="bold"
+                    >
+                      Not endorsed by nor affiliated with Ultra
+                    </Typography>
 
-                <Typography variant="body2" color="inherit">
-                  Made with 💜 by{' '}
-                  <Link
-                    href="/"
+                    <Typography variant="body2" color="inherit">
+                      Made with 💜 by{' '}
+                      <Link
+                        href="/"
+                        sx={{
+                          color: 'white',
+                          fontWeight: 'bold',
+                          textDecoration: 'none',
+                          '&:hover': {
+                            textDecoration: 'underline',
+                          },
+                        }}
+                      >
+                        Ultra Tech Alliance
+                      </Link>{' '}
+                      - {new Date().getFullYear()}
+                    </Typography>
+                    <Typography
+                      variant="overline"
+                      textAlign={'center'}
+                      color="inherit"
+                      fontStyle={'italic'}
+                      fontSize={'0.7rem'}
+                    >
+                      The Ultra logos are trademarks of Ultra Corporation
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <Box
+                  display={'flex'}
+                  justifyContent={isSm ? 'center' : 'flex-end'}
+                  alignItems={'center'}
+                  height={'100%'}
+                  width={'100%'}
+                >
+                  <List
+                    disablePadding
                     sx={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                      textDecoration: 'none',
-                      '&:hover': {
-                        textDecoration: 'underline',
-                      },
+                      display: 'flex',
+                      width: 'fit-content',
+                      marginInline: 'auto',
                     }}
                   >
-                    Ultra Tech Alliance
-                  </Link>{' '}
-                  - {new Date().getFullYear()}
-                </Typography>
-                <Typography
-                  variant="overline"
-                  textAlign={'center'}
-                  color="inherit"
-                  fontStyle={'italic'}
-                  fontSize={'0.7rem'}
-                >
-                  The Ultra logos are trademarks of Ultra Corporation
-                </Typography>
-              </Box>
-            </Box>
+                    <ListItem
+                      disablePadding
+                      sx={{
+                        width: 'fit-content',
+                      }}
+                    >
+                      <ListItemButton
+                        target="_blank"
+                        href={'https://twitter.com/UltraAllianceHQ'}
+                        sx={{
+                          borderRadius: 2,
+                          transition: 'all 0.2s ease-in-out',
+                        }}
+                      >
+                        <ListItemAvatar>
+                          <Twitter sx={{ color: 'white' }} />
+                        </ListItemAvatar>{' '}
+                        <ListItemText primary={'Twitter'} />
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem
+                      disablePadding
+                      sx={{
+                        width: 'fit-content',
+                      }}
+                    >
+                      <ListItemButton
+                        sx={{
+                          borderRadius: 2,
+                          transition: 'all 0.2s ease-in-out',
+                          width: 'fit-content',
+                        }}
+                        target="_blank"
+                        href={'https://discord.gg/JtBbqdh2K2'}
+                      >
+                        <ListItemAvatar>
+                          <Avatar
+                            sx={{
+                              bgcolor: 'transparent',
+                            }}
+                            imgProps={{
+                              sx: {
+                                ml: -1,
+                                height: 16,
+                                width: 'auto',
+                              },
+                            }}
+                            src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png"
+                          />
+                        </ListItemAvatar>{' '}
+                        <ListItemText primary={'Discord'} />
+                      </ListItemButton>
+                    </ListItem>
+                  </List>
+                </Box>
+              </Grid>
+            </Grid>
           </Container>
           <Divider sx={{ my: 3 }} />
 

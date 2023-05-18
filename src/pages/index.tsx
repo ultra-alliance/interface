@@ -1,4 +1,4 @@
-import ListedView from '@/views/ListedView';
-export default function Listed() {
-  return <ListedView />;
+import HomeView from '@/views/HomeView';
+export default function Home() {
+  return <HomeView />;
 }

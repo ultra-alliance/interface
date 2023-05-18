@@ -138,6 +138,11 @@ export default function Sidebar(props: SideBarProps) {
       imgSrc: '/umerch.png',
     },
     {
+      tooltip: 'Ultropia',
+      link: 'https://ultropia.io/',
+      imgSrc: '/ultropia.png',
+    },
+    {
       tooltip: 'Ultra Documentation',
       icon: <Article />,
       link: LINKS.ULTRA_DOCS,

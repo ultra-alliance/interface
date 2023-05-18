@@ -49,17 +49,22 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-toastify": "^9.1.2",
+    "react-tsparticles": "^2.9.3",
+    "react-type-animation": "^3.0.1",
+    "tsparticles": "^2.9.3",
     "typescript": "5.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
     "@types/react-toastify": "^4.1.0",
+    "@types/styled-components": "^5.1.26",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.0",
     "null-loader": "^4.0.1",
     "prettier": "^2.8.7",
+    "styled-components": "^5.3.10",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1"
   }
