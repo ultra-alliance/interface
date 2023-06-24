@@ -22,7 +22,7 @@ export default function LatestFactories() {
   const { data, isLoading } = useUltraQuery({
     queryFn: async () => {
       const res = await ultra?.api.getTableRows<tFactory>({
-        table: 'factory.a',
+        table: 'factory.b',
         code: 'eosio.nft.ft',
         scope: 'eosio.nft.ft',
         config: {
@@ -31,14 +31,21 @@ export default function LatestFactories() {
           reverse: true,
         },
       });
+
       const manifested: tFactoryManifested[] = [];
       if (!res?.rows) return [];
+      console.log('res', res);
       for (let i = 0; i < res?.rows.length; i++) {
-        const fact = await ultra?.api.getFactoryManifested(res.rows[i].id, {
-          square: true,
-        });
-        if (fact) {
-          manifested.push(fact);
+        console.log('res.rows[i].id', res.rows[i].id);
+        try {
+          const fact = await ultra?.api.getFactoryManifested(res.rows[i].id, {
+            square: true,
+          });
+          if (fact) {
+            manifested.push(fact);
+          }
+        } catch (error) {
+          console.log('error', error);
         }
       }
 

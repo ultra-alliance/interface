@@ -4,12 +4,17 @@ import { tUltra, tQueryConfig, tValidInput } from '@ultra-alliance/ultra-sdk';
 
 class RaffleService extends BaseService {
   constructor(ultra: tUltra | undefined) {
-    super(ultra, 'rfflcntract1');
+    super(ultra, 'rfflecntract');
   }
 
   async getRaffles(config?: tQueryConfig): Promise<tRaffle[]> {
-    const raffles = await this.getTable<tRaffle>('raffles', config);
-    return raffles?.rows ?? [];
+    try {
+      const raffles = await this.getTable<tRaffle>('raffles', config);
+      return raffles?.rows ?? [];
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
   }
 
   async getParticipants(config?: tQueryConfig): Promise<tParticipant[]> {

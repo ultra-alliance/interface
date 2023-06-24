@@ -15,7 +15,7 @@ import { formatUosBalance } from '@ultra-alliance/ultra-sdk';
 import { toast } from 'react-toastify';
 import useBreakPoint from '../../../../hooks/useBreakpoint';
 import InputUosPrice from '@/components/inputs/InputUosPrice';
-import { isAccountName } from '@ultra-alliance/ultra-sdk';
+import { isUltraAccount } from '@ultra-alliance/ultra-sdk';
 
 export default function TransferUos() {
   const { logout, account } = useUltra();
@@ -164,9 +164,9 @@ export default function TransferUos() {
                   borderColor: '1px solid #ffffff9a',
                 },
               }}
-              error={to === undefined || !isAccountName(to)}
+              error={to === undefined || !isUltraAccount(to)}
               helperText={
-                (to === undefined || !isAccountName(to)) &&
+                (to === undefined || !isUltraAccount(to)) &&
                 'Incorrect account name'
               }
               required={true}
@@ -207,7 +207,7 @@ export default function TransferUos() {
               variant="contained"
               disabled={
                 to !== undefined &&
-                isAccountName(to) &&
+                isUltraAccount(to) &&
                 quantity !== undefined &&
                 parseFloat(quantity) > 0.0000001
                   ? false

@@ -25,7 +25,7 @@ export default function Details({ factoryData }: DetailsProps) {
           size="small"
           color="primary"
           startIcon={<Download />}
-          href={data.meta_uris[0]}
+          href={data.factory_uri}
         >
           Download ZIP
         </Button>

@@ -6,7 +6,7 @@ import {
   Fade,
   Typography,
 } from '@mui/material';
-import { useBreakPoint } from '@ultra-alliance/uikit';
+import useBreakpoint from '../../hooks/useBreakpoint';
 import React from 'react';
 
 interface CardTextProps {
@@ -24,7 +24,7 @@ export default function CardText({
   subtitle,
   onClick,
 }: CardTextProps) {
-  const { isSm } = useBreakPoint();
+  const { isSm } = useBreakpoint();
   const [isHover, setIsHover] = React.useState(false);
   const handleMouseEnter = () => {
     setIsHover(true);

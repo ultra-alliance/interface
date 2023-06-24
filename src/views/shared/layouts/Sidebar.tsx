@@ -28,8 +28,11 @@ import {
   useTheme,
 } from '@mui/material';
 import { DRAWER_WIDTH } from '@/constants/dimensions';
-import { LINKS } from '@ultra-alliance/ultra-sdk';
+import { CHAINS, LINKS } from '@ultra-alliance/ultra-sdk';
 import usePageRedirect from '@/hooks/usePageRedirect';
+import { useUltra } from '@ultra-alliance/react-ultra';
+import { ultraColors } from '@ultra-alliance/uikit';
+import useNetworkColor from '@/hooks/useNetworkColor';
 
 type SideBarProps = {
   open?: boolean;
@@ -65,59 +68,56 @@ type tListItem = {
 export default function Sidebar(props: SideBarProps) {
   const theme = useTheme();
   const { goToFactories, gotToListed, goToRaffles } = usePageRedirect();
+  const { chain } = useUltra();
+  const { color } = useNetworkColor();
+
+  function renderAppIcon({
+    icon = <></>,
+    adaptative = false,
+  }): React.ReactNode {
+    return (
+      <Avatar
+        sx={{
+          backgroundColor: adaptative ? color : 'primary.main',
+          color: 'white',
+          fontWeight: 'bold',
+        }}
+        variant="rounded"
+      >
+        {icon}
+      </Avatar>
+    );
+  }
 
   const list: tListItem[] = [
     {
-      disabled: true,
+      disabled: chain?.name !== 'local',
       tooltip: 'Ultra Raffles',
-      icon: (
-        <Avatar
-          sx={{
-            backgroundColor: 'primary.main',
-            color: 'white',
-            fontWeight: 'bold',
-          }}
-          variant="rounded"
-        >
-          <Casino />
-        </Avatar>
-      ),
+      icon: renderAppIcon({
+        icon: <Casino />,
+        adaptative: true,
+      }),
+
       onClick: () => {
         goToRaffles();
       },
     },
     {
       tooltip: 'Uniq Factories',
-      icon: (
-        <Avatar
-          sx={{
-            backgroundColor: 'primary.main',
-            color: 'white',
-            fontWeight: 'bold',
-          }}
-          variant="rounded"
-        >
-          <Factory />
-        </Avatar>
-      ),
+      icon: renderAppIcon({
+        icon: <Factory />,
+        adaptative: true,
+      }),
       onClick: () => {
         goToFactories();
       },
     },
     {
       tooltip: 'Uniq for sale',
-      icon: (
-        <Avatar
-          sx={{
-            backgroundColor: 'primary.main',
-            color: 'white',
-            fontWeight: 'bold',
-          }}
-          variant="rounded"
-        >
-          <LocalGroceryStore />
-        </Avatar>
-      ),
+      icon: renderAppIcon({
+        icon: <LocalGroceryStore />,
+        adaptative: true,
+      }),
       onClick: () => {
         gotToListed();
       },
@@ -171,6 +171,7 @@ export default function Sidebar(props: SideBarProps) {
         target="_blank"
         sx={{
           minHeight: 48,
+          background: color,
           position: 'relative',
           width: '100%',
           justifyContent: 'center',
@@ -303,7 +304,7 @@ export default function Sidebar(props: SideBarProps) {
             margin: '0px',
             paddingLeft: '0px',
             paddingRight: '0px',
-            backgroundColor: 'primary.main',
+            backgroundColor: color,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',

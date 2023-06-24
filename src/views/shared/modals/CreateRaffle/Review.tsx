@@ -3,6 +3,7 @@ import PageTitle from '@/components/molecules/PageTitle';
 import PayWith from '@/components/organisms/PayWith';
 import { TxBetween } from '@/components/organisms/TxBetween';
 import UosArrow from '@/components/organisms/UosArrow';
+import RaffleService from '@/utilities/contract-helpers/RaffleService';
 import { Casino } from '@mui/icons-material';
 import {
   Avatar,
@@ -22,60 +23,60 @@ interface ReviewCreateRaffleProps {
   next: () => void;
 }
 
-async function addAccountCodePermission(
-  account: string,
-  contract: string,
-  ultra: tUltra,
-) {
-  if (!ultra) {
-    throw new Error('Ultra SDK not available.');
-  }
+// async function addAccountCodePermission(
+//   account: string,
+//   contract: string,
+//   ultra: tUltra,
+// ) {
+//   if (!ultra) {
+//     throw new Error('Ultra SDK not available.');
+//   }
 
-  // Fetch the account information
-  const accountInfo = await ultra.account.refetchAccountData(account);
-  console.log(accountInfo);
-  if (!accountInfo) {
-    throw new Error('Account not found.');
-  }
+//   // Fetch the account information
+//   const accountInfo = await ultra.account.refetchAccountData(account);
+//   console.log(accountInfo);
+//   if (!accountInfo) {
+//     throw new Error('Account not found.');
+//   }
 
-  const authorization = {
-    actor: contract,
-    permission: 'active',
-  };
+//   const authorization = {
+//     actor: contract,
+//     permission: 'active',
+//   };
 
-  const updateAuthTransaction = {
-    action: 'updateauth',
-    data: {
-      account: account,
-      permission: 'active',
-      parent: 'owner',
-      auth: {
-        threshold: 1,
-        keys: accountInfo.data?.permissions[0].required_auth.keys, // Use the fetched public keys
-        accounts: [
-          {
-            permission: {
-              actor: contract,
-              permission: 'eosio.code',
-            },
-            weight: 1,
-          },
-        ],
-        waits: [],
-      },
-    },
-    authorizations: [authorization],
-    contract: 'eosio',
-  };
+//   const updateAuthTransaction = {
+//     action: 'updateauth',
+//     data: {
+//       account: account,
+//       permission: 'active',
+//       parent: 'owner',
+//       auth: {
+//         threshold: 1,
+//         keys: accountInfo.data?.permissions[0].required_auth.keys, // Use the fetched public keys
+//         accounts: [
+//           {
+//             permission: {
+//               actor: contract,
+//               permission: 'eosio.code',
+//             },
+//             weight: 1,
+//           },
+//         ],
+//         waits: [],
+//       },
+//     },
+//     authorizations: [authorization],
+//     contract: 'eosio',
+//   };
 
-  await ultra.account.signTransaction(updateAuthTransaction);
-}
+//   await ultra.account.signTransaction(updateAuthTransaction);
+// }
 
 export default function ReviewCreateRaffle({
   prev,
   next,
 }: ReviewCreateRaffleProps) {
-  const { ultra } = useUltra();
+  const { ultra, account, marketPrices } = useUltra();
   const [rewardAmount, setRewardAmount] = React.useState<number | undefined>(
     undefined,
   );
@@ -83,8 +84,6 @@ export default function ReviewCreateRaffle({
   const handleRewardAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRewardAmount(parseFloat(e.target.value));
   };
-
-  const { account, marketPrices } = useUltra();
 
   const IS_ENOUGH_BALANCE = React.useMemo(() => {
     return (
@@ -95,18 +94,20 @@ export default function ReviewCreateRaffle({
   }, [rewardAmount, account?.data?.core_liquid_balance]);
 
   const onCreateRaffle = async () => {
+    const raffleService = new RaffleService(ultra);
     try {
       // await addAccountCodePermission(
       //   account?.data?.account_name || '',
-      //   'rfflcntract1',
+      //   'rfflecntract',
       //   ultra as tUltra,
       // );
 
       const tx = await ultra?.account.extension.signTransaction({
-        action: 'test',
-        contract: 'rfflcntract1',
+        action: 'create',
+        contract: raffleService.name,
         data: {
-          something: 'rfflcntract1',
+          influencer: 'alice',
+          reward_amount: '11.00000000 UOS',
         },
       });
       console.log(tx);

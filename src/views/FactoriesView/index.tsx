@@ -35,7 +35,7 @@ const FactoriesView = () => {
 
   const onClickSearch = async () => {
     try {
-      let uniq = await ultra?.api.getFactoryDetail(search);
+      let uniq = await ultra?.api.getFactory(search);
       if (!uniq || uniq === undefined) throw new Error('No Uniqs Found');
       goToFactory(uniq.id);
     } catch (err) {

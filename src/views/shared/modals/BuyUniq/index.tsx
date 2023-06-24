@@ -20,7 +20,10 @@ import UniqArrow from '@/components/organisms/UniqArrow';
 import UosArrow from '@/components/organisms/UosArrow';
 import { TxBetween } from '@/components/organisms/TxBetween';
 import { toast } from 'react-toastify';
-import { PROMOTER_WALLET_MAINNET } from '@/constants/wallets';
+import {
+  PROMOTER_WALLET_MAINNET,
+  PROMOTER_WALLET_TESTNET,
+} from '@/constants/wallets';
 
 type BuyUniqProps = {
   open: boolean;
@@ -41,6 +44,7 @@ export default function BuyUniq({ open, uniq, onClose }: BuyUniqProps) {
   const {
     ultra,
     login,
+    chain,
     isAuthenticated,
     isWalletInstalled,
     account,
@@ -64,7 +68,8 @@ export default function BuyUniq({ open, uniq, onClose }: BuyUniqProps) {
         receiver: account.data.account_name,
         max_price: uniq.listingDetails.price,
         memo: 'Buying Uniq on UTA Marketplace',
-        promoter_id: PROMOTER_WALLET_MAINNET,
+        promoter_id:
+          chain?.type === 'MAINNET' ? PROMOTER_WALLET_MAINNET : 'ultra',
       })
       .then(res => {
         if (onClose) onClose();

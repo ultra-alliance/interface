@@ -11,6 +11,7 @@ import RaffleCard from '@/components/molecules/RaffleCard';
 import { tRaffle } from '@/types';
 import usePageRedirect from '@/hooks/usePageRedirect';
 import useBreakPoint from '@/hooks/useBreakpoint';
+import RaffleService from '@/utilities/contract-helpers/RaffleService';
 
 const RafflesView = () => {
   const { ultra } = useUltra();
@@ -22,14 +23,20 @@ const RafflesView = () => {
     tRaffle[] | undefined
   >({
     queryFn: async () => {
-      const res = await ultra?.api.getTableRows({
-        code: 'rfflcntract1',
-        scope: 'rfflcntract1',
-        table: 'raffles',
-      });
-      if (!res) return undefined;
+      const raffleService = new RaffleService(ultra);
 
-      return res?.rows as unknown as tRaffle[];
+      const result = await raffleService.getRaffles();
+      if (!result) return undefined;
+
+      // const res = await ultra?.api.getTableRows({
+      //   code: 'rfflcntract1',
+      //   scope: 'rfflcntract1',
+      //   table: 'raffles',
+      // });
+      // if (!res) return undefined;
+
+      // return res?.rows as unknown as tRaffle[];
+      return result;
     },
     autofetch: true,
   });

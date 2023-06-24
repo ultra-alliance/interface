@@ -44,7 +44,7 @@ import { TransactionModal } from '@/components/templates';
 import OwnedUniqCard from '@/components/molecules/OwnedUniqCard';
 import Specifications from '@/views/FactoryView/Overview/Specification';
 import Information from '@/views/FactoryView/Overview/Information';
-import { isAccountName } from '@ultra-alliance/ultra-sdk';
+import { isUltraAccount } from '@ultra-alliance/ultra-sdk';
 
 type TransferUniqProps = {
   open: boolean;
@@ -183,9 +183,9 @@ export default function TransferUniq({
                             borderColor: '1px solid #ffffff9a',
                           },
                         }}
-                        error={to === undefined || !isAccountName(to)}
+                        error={to === undefined || !isUltraAccount(to)}
                         helperText={
-                          (to === undefined || !isAccountName(to)) &&
+                          (to === undefined || !isUltraAccount(to)) &&
                           'Incorrect account name'
                         }
                         required={true}
@@ -223,7 +223,7 @@ export default function TransferUniq({
               <Stack>
                 <Button
                   variant="contained"
-                  disabled={to === undefined || !isAccountName(to)}
+                  disabled={to === undefined || !isUltraAccount(to)}
                   onClick={next}
                 >
                   Continue

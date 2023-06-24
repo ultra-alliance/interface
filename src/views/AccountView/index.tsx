@@ -19,7 +19,7 @@ import RaffleService from '@/utilities/contract-helpers/RaffleService';
 export default function AccountView() {
   const { currentPage, jump } = usePagination({ items: [], itemsPerPage: 10 });
   const { accountID } = useRouter().query;
-  const { ultra, account } = useUltra();
+  const { ultra, account, chain } = useUltra();
   const { data, fetchData } = useUltraQuery({
     queryFn: async () => {
       const raffleService = new RaffleService(ultra);
@@ -105,7 +105,7 @@ export default function AccountView() {
     },
     {
       id: 3,
-      disabled: true,
+      disabled: chain?.name !== 'local',
       name: 'Raffles',
       link: '/account/raffles',
       onClick: () => {},

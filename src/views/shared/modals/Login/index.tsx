@@ -16,6 +16,7 @@ import Modal from '@/components/modals/Modal';
 import { LINKS } from '@ultra-alliance/ultra-sdk';
 import Account from './Account';
 import { toast } from 'react-toastify';
+import SelectChain from '@/components/selects/SelectChain';
 
 interface ZoneProps {
   purple?: boolean;
@@ -23,6 +24,7 @@ interface ZoneProps {
   text?: string;
   buttonTxt?: string;
   buttonProps?: ButtonProps;
+  withChain?: boolean;
 }
 
 const Zone = ({
@@ -31,6 +33,7 @@ const Zone = ({
   text = undefined,
   buttonTxt = undefined,
   buttonProps = undefined,
+  withChain = false,
 }: ZoneProps) => {
   return (
     <Stack
@@ -47,7 +50,9 @@ const Zone = ({
       >
         {title}
       </Typography>
+
       <Typography id="modal-modal-description">{text}</Typography>
+      {withChain && <SelectChain />}
       <Button color={purple ? 'secondary' : 'primary'} {...buttonProps}>
         {buttonTxt}
       </Button>
@@ -108,6 +113,7 @@ export default function Login({
   function renderConnectZone() {
     return (
       <Zone
+        withChain={true}
         title="Connect to your Ultra Wallet"
         buttonTxt="Connect"
         text="Seems like you have the Ultra Wallet installed, click to login to your Ultra account."
