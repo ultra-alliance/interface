@@ -17,7 +17,6 @@ export default function UosBackground({
   const theme = useTheme();
 
   const particlesInit = async (main: any) => {
-    console.log(main);
     await loadFull(main);
   };
 

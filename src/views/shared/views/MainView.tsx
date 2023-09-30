@@ -1,28 +1,6 @@
-import { LoyaltyRounded, StorageRounded } from '@mui/icons-material';
-import {
-  Avatar,
-  Box,
-  Card,
-  Collapse,
-  Divider,
-  Fade,
-  Grid,
-  Grow,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Skeleton,
-  Typography,
-} from '@mui/material';
+import { Box, Grid, Grow } from '@mui/material';
 import React from 'react';
-import HTMLHead from '../../shared/HTMLHead';
 import CardMenu, { CardMenuProps } from '@/components/molecules/CardMenu';
-import {
-  useUltraQuery,
-  useUltra,
-  tUseUltraQueryParams,
-} from '@ultra-alliance/react-ultra';
 import { LoadingIndicator } from '@/components';
 
 interface TabPanelProps {

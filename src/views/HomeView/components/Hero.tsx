@@ -36,9 +36,6 @@ export default function Hero() {
             5000, // Waits 2s
             'innovators', // Types 'Three' without deleting 'Two'
             5000, //
-            () => {
-              console.log('Sequence completed');
-            },
           ]}
           speed={10}
           wrapper="span"

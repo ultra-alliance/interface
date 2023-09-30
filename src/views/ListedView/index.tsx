@@ -11,10 +11,7 @@ import {
   MenuItem,
   Paper,
 } from '@mui/material';
-import {
-  formatNumeralAbreviation,
-  calcTotalPrice,
-} from '@ultra-alliance/ultra-sdk';
+import { calcTotalPrice } from '@ultra-alliance/ultra-sdk';
 import App from '../shared/layouts/App';
 import { ListedUniqCard, LoadingIndicator, UniqCard } from '@/components';
 import usePageRedirect from '@/hooks/usePageRedirect';
@@ -31,7 +28,7 @@ const ListedView = () => {
   const { isSm } = useBreakPoint();
   const { goToFactory } = usePageRedirect();
   const { baseCurrency } = useLocalisation();
-  const { marketPrices, isAuthenticated } = useUltra();
+  const { marketPrices, isAuthenticated, refreshAccount } = useUltra();
   const {
     sortOrder,
     handleSortOrderChange,
@@ -165,7 +162,7 @@ const ListedView = () => {
           <Login
             isOpen={isUniqSelected && !isAuthenticated}
             onClose={closeUniq}
-            onSuccessLogin={() => {
+            onSuccessLogin={async () => {
               if (selectedUniq) {
                 selectUniq(selectedUniq);
               }

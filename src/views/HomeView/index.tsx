@@ -1,53 +1,11 @@
 import React from 'react';
-import {
-  Grid,
-  Typography,
-  Zoom,
-  Box,
-  LinearProgress,
-  Stack,
-  Divider,
-  Select,
-  MenuItem,
-  Paper,
-  Avatar,
-  Button,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  ListItemButton,
-  Skeleton,
-  useTheme,
-  CardMedia,
-  Card,
-} from '@mui/material';
-import {
-  formatNumeralAbreviation,
-  calcTotalPrice,
-  tFactory,
-  tFactoryManifested,
-  LINKS,
-} from '@ultra-alliance/ultra-sdk';
+import { Grid, Box, Divider, Avatar } from '@mui/material';
+import { LINKS } from '@ultra-alliance/ultra-sdk';
 import App from '../shared/layouts/App';
-import { ListedUniqCard, LoadingIndicator, UniqCard } from '@/components';
-import usePageRedirect from '@/hooks/usePageRedirect';
 import useBreakPoint from '@/hooks/useBreakpoint';
-import { tListedUniqCard, useListedUniqs } from '@/hooks/useListedUniqs';
-import {
-  useLocalisation,
-  useUltra,
-  useUltraQuery,
-} from '@ultra-alliance/react-ultra';
-import Login from '../shared/modals/Login';
-import BuyUniq from '../shared/modals/BuyUniq';
-import UniqChip from '@/components/atoms/UniqChip';
-import PageTitle from '@/components/molecules/PageTitle';
-import { Factory, LocalGroceryStore } from '@mui/icons-material';
 import { UosBackground } from '@/components/anims';
-import { TypeAnimation } from 'react-type-animation';
 import Hero from './components/Hero';
 import LatestFactories from './components/LatestFactories';
-import AssetAmount from '@/components/molecules/AssetAmount';
 import CardText from '@/components/molecules/CardText';
 
 const HomeView = () => {
@@ -76,7 +34,7 @@ const HomeView = () => {
               sm={12}
               md={5}
               lg={5}
-              spacing={2}
+              gap={2}
               display={'flex'}
               alignItems={'center'}
             >

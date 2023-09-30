@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Receipt, RemoveRedEye } from '@mui/icons-material';
-import { AppBar, Container, Stack, Toolbar, useTheme } from '@mui/material';
+import { AppBar, Container, Stack, Toolbar } from '@mui/material';
 import { CURRENCIES, useUltra } from '@ultra-alliance/react-ultra';
 import Modal from '@/components/modals/Modal';
 import { tListedUniqCard } from '@/hooks/useListedUniqs';
@@ -9,21 +9,13 @@ import usePagination from '@/hooks/usePagination';
 import Stepper from '@/components/molecules/Stepper';
 import CloseButton from '@/components/atoms/CloseButton';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import useBreakPoint from '@/hooks/useBreakpoint';
-import AccountAvatar from '@/components/molecules/AccountAvatar';
 import PageTitle from '@/components/molecules/PageTitle';
-import { Arrow, UniqCreator } from '@/components/atoms';
-import { calcTotalPrice, formatCurrencyValue } from '@ultra-alliance/ultra-sdk';
-import UniqChip from '@/components/atoms/UniqChip';
 import PayWith from '@/components/organisms/PayWith';
 import UniqArrow from '@/components/organisms/UniqArrow';
 import UosArrow from '@/components/organisms/UosArrow';
 import { TxBetween } from '@/components/organisms/TxBetween';
 import { toast } from 'react-toastify';
-import {
-  PROMOTER_WALLET_MAINNET,
-  PROMOTER_WALLET_TESTNET,
-} from '@/constants/wallets';
+import { PROMOTER_WALLET_MAINNET } from '@/constants/wallets';
 
 type BuyUniqProps = {
   open: boolean;
@@ -39,25 +31,9 @@ const steps = [
 let window: Window;
 
 export default function BuyUniq({ open, uniq, onClose }: BuyUniqProps) {
-  const { isSm } = useBreakPoint();
-  const theme = useTheme();
-  const {
-    ultra,
-    login,
-    chain,
-    isAuthenticated,
-    isWalletInstalled,
-    account,
-    marketPrices,
-    refreshAccount,
-  } = useUltra();
-  const { currentPage, next, prev } = usePagination({
+  const { ultra, chain, account, marketPrices, refreshAccount } = useUltra();
+  const { currentPage } = usePagination({
     startingPage: 0,
-  });
-
-  const flatPrice = calcTotalPrice({
-    balance: uniq?.listingDetails.price || 0,
-    basePrice: marketPrices?.USD || 0,
   });
 
   const onClickPurchase = async () => {
@@ -71,14 +47,14 @@ export default function BuyUniq({ open, uniq, onClose }: BuyUniqProps) {
         promoter_id:
           chain?.type === 'MAINNET' ? PROMOTER_WALLET_MAINNET : 'ultra',
       })
-      .then(res => {
+      .then(() => {
         if (onClose) onClose();
         toast.success("You've successfully bought Uniq.");
         refreshAccount().catch(err => {
-          console.log(err);
+          console.error(err);
         });
       })
-      .catch(err => {
+      .catch(() => {
         toast.error("Couldn't buy Uniq. Please try again.");
       });
   };
