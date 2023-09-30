@@ -3,7 +3,6 @@ import InfoCard from '@/components/molecules/InfoCard';
 import OwnedUniqCard from '@/components/molecules/OwnedUniqCard';
 import {
   Box,
-  Chip,
   Divider,
   Grid,
   Grow,
@@ -18,9 +17,9 @@ import { useUltra, useUltraQuery } from '@ultra-alliance/react-ultra';
 import {
   formatNumeralAbreviation,
   formatTimeSinceNow,
-  tGetFactoryManifested,
   tTokenA,
   tFactoryManifested,
+  tListedUniq,
 } from '@ultra-alliance/ultra-sdk';
 import AssetAmount from '@/components/molecules/AssetAmount';
 import useBreakPoint from '@/hooks/useBreakpoint';
@@ -29,7 +28,6 @@ import { LoadingIndicator } from '@/components';
 import usePageRedirect from '@/hooks/usePageRedirect';
 import ListUniq from '@/views/shared/modals/ListUniq/ListUniq';
 import { useRouter } from 'next/router';
-import { tListedUniq } from '@ultra-alliance/ultra-sdk';
 import { toast } from 'react-toastify';
 import TransferUniq from '@/views/shared/modals/TransferUniq/TransferUniq';
 
@@ -38,6 +36,7 @@ interface UniqsInInventoryProps {
   withActions?: boolean;
   withViewButton?: boolean;
   onActionComplete?: () => void;
+  onAvatarChange?: () => void;
 }
 
 export type tUniqsDetail = {
@@ -51,9 +50,10 @@ interface UniqListZoneProps<T> {
   uniqs: T[];
   index: number;
   redirect?: boolean;
-  onSuccessList: () => void;
   withActions?: boolean;
   withViewButton?: boolean;
+  onSuccessList: () => void;
+  onSucessChangeAvatar?: () => void;
 }
 
 type tGroupedUniqsOwned<T> = {
@@ -70,12 +70,12 @@ const UniqListZone = ({
   date,
   uniqs,
   index,
-  redirect,
-  onSuccessList,
   withActions,
   withViewButton,
+  onSuccessList,
+  onSucessChangeAvatar,
 }: UniqListZoneProps<tUniqsDetail>) => {
-  const { ultra, refreshAccount } = useUltra();
+  const { ultra, refreshAccount, isAuthenticated, account } = useUltra();
   const { goToFactory } = usePageRedirect();
   const [listedUniq, setListedUniq] = useState<number | undefined>(undefined);
   const [transferedUniq, setTransferedUniq] = useState<number | undefined>(
@@ -94,6 +94,34 @@ const UniqListZone = ({
       })
       .catch(() => {
         toast.error('Failed to unlist Uniq');
+      });
+  };
+
+  const onClickSetAvatar = async (nft_id: number) => {
+    if (!ultra) return;
+    ultra.account
+      .setAvatar({
+        nft_id,
+      })
+      .then(() => {
+        toast.success('Uniq successfully set as avatar');
+        onSucessChangeAvatar && onSucessChangeAvatar();
+      })
+      .catch(() => {
+        toast.error('Failed to set Uniq as avatar');
+      });
+  };
+
+  const onClickClearAvatar = async () => {
+    if (!ultra) return;
+    ultra.account
+      .clearAvatar()
+      .then(() => {
+        toast.success('Avatar successfully cleared');
+        onSucessChangeAvatar && onSucessChangeAvatar();
+      })
+      .catch(() => {
+        toast.error('Failed to clear avatar');
       });
   };
 
@@ -122,11 +150,15 @@ const UniqListZone = ({
                     onClickTransfer={() => {
                       setTransferedUniq(index);
                     }}
+                    onClickClearAvatar={() => onClickClearAvatar()}
+                    onClickSetAvatar={() => onClickSetAvatar(uniq.uniq.id)}
                     uniq={uniq.manifested.data}
                     manifest={uniq.manifested.manifest}
                     ownedUniq={uniq.uniq}
                     listingDetails={uniq?.listingDetails}
                     viewDetailBtn={withViewButton}
+                    hasUniq={isAuthenticated}
+                    isUniqAvatar={account?.data?.avatar_id === uniq.uniq.id}
                   />
                 </Grid>
               );
@@ -167,6 +199,7 @@ export default function UniqsInInventory({
   withActions,
   withViewButton,
   onActionComplete,
+  onAvatarChange,
 }: UniqsInInventoryProps) {
   const { ultra } = useUltra();
   const { isSm } = useBreakPoint();
@@ -333,6 +366,9 @@ export default function UniqsInInventory({
               onSuccessList={() => {
                 fetchUniqsDetails();
                 if (onActionComplete) onActionComplete();
+              }}
+              onSucessChangeAvatar={() => {
+                if (onAvatarChange) onAvatarChange();
               }}
               withActions={withActions}
               withViewButton={withViewButton}

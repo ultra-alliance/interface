@@ -1,47 +1,12 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {
-  AccountBoxRounded,
-  CloseRounded,
-  QuestionMark,
-  Receipt,
-  RemoveRedEye,
-} from '@mui/icons-material';
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Container,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Paper,
-  Skeleton,
-  Stack,
-  Toolbar,
-  Tooltip,
-  useTheme,
-} from '@mui/material';
+import { Receipt, RemoveRedEye } from '@mui/icons-material';
+import { Avatar, Divider, Grid, Stack, Tooltip } from '@mui/material';
 import { CURRENCIES, useUltra } from '@ultra-alliance/react-ultra';
-import Modal from '@/components/modals/Modal';
-import { tListedUniqCard } from '@/hooks/useListedUniqs';
 import usePagination from '@/hooks/usePagination';
-import Stepper from '@/components/molecules/Stepper';
-import CloseButton from '@/components/atoms/CloseButton';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import useBreakPoint from '@/hooks/useBreakpoint';
-import AccountAvatar from '@/components/molecules/AccountAvatar';
-import PageTitle from '@/components/molecules/PageTitle';
-import { Arrow, UniqCreator } from '@/components/atoms';
-import { calcTotalPrice, formatCurrencyValue } from '@ultra-alliance/ultra-sdk';
-import UniqChip from '@/components/atoms/UniqChip';
+import { calcTotalPrice } from '@ultra-alliance/ultra-sdk';
 import PayWith from '@/components/organisms/PayWith';
 import UniqArrow from '@/components/organisms/UniqArrow';
 import UosArrow from '@/components/organisms/UosArrow';
@@ -75,17 +40,7 @@ export default function ListUniq({
   onClose,
   onSuccessList,
 }: ListUniqProps) {
-  const { isSm } = useBreakPoint();
-  const theme = useTheme();
-  const {
-    ultra,
-    login,
-    isAuthenticated,
-    isWalletInstalled,
-    account,
-    marketPrices,
-    refreshAccount,
-  } = useUltra();
+  const { ultra, account, marketPrices, refreshAccount } = useUltra();
 
   const [price, setPrice] = React.useState<number | undefined>(undefined);
   const [commission, setCommission] = React.useState<number>(2.5);
@@ -116,15 +71,15 @@ export default function ListUniq({
         promoter_basis_point: commission * 100,
         memo: 'Reselling Uniq on UTA Marketplace',
       })
-      .then(res => {
+      .then(() => {
         if (onClose) onClose();
         toast.success("You've successfully listed your Uniq.");
         refreshAccount().catch(err => {
-          console.log(err);
+          console.error(err);
         });
         if (onSuccessList) onSuccessList();
       })
-      .catch(err => {
+      .catch(() => {
         toast.error("Couldn't resell Uniq. Please try again.");
       });
   };

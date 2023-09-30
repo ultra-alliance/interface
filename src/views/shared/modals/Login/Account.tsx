@@ -158,6 +158,7 @@ export default function AvatarMenu() {
                   width: 28,
                   mr: isSm ? 0 : 0.5,
                 }}
+                src={account?.avatar.manifest?.manifest.media.images.square}
               />
             )
           }
@@ -172,6 +173,7 @@ export default function AvatarMenu() {
                 width: 28,
                 mr: isSm ? 0 : 0.5,
               }}
+              src={account?.avatar.manifest?.manifest.media.images.square}
             />
           ) : (
             formatName({

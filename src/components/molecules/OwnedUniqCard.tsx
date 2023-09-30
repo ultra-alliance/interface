@@ -26,7 +26,6 @@ import {
   type tFactory,
   type tManifest,
   tTokenA,
-  isUltraAccount,
   tListedUniq,
   formatCurrencyValue,
 } from '@ultra-alliance/ultra-sdk';
@@ -47,12 +46,16 @@ type OwnedUniqCardProps = {
   ownedUniq?: tTokenA;
   hoverable?: boolean;
   listingDetails?: tListedUniq | undefined;
+  withActions?: boolean;
+  viewDetailBtn?: boolean;
+  hasUniq?: boolean;
+  isUniqAvatar?: boolean;
   onClickViewDetails: () => void;
   onClickTransfer: () => void;
   onClickResale: () => void;
   onClickCancelResale: () => void;
-  withActions?: boolean;
-  viewDetailBtn?: boolean;
+  onClickSetAvatar: () => void;
+  onClickClearAvatar: () => void;
 };
 
 OwnedUniqCard.defaultProps = {
@@ -60,12 +63,16 @@ OwnedUniqCard.defaultProps = {
   uniq: undefined,
   hoverable: true,
   listingDetails: undefined,
+  withActions: true,
+  viewDetailBtn: true,
+  hasUniq: false,
+  isUniqAvatar: false,
   onClickViewDetails: () => {},
   onClickTransfer: () => {},
   onClickResale: () => {},
   onClickCancelResale: () => {},
-  withActions: true,
-  viewDetailBtn: true,
+  onClickSetAvatar: () => {},
+  onClickClearAvatar: () => {},
 };
 
 interface CardListItemButtonProps {
@@ -108,12 +115,16 @@ export default function OwnedUniqCard({
   ownedUniq,
   hoverable,
   listingDetails,
+  hasUniq,
+  isUniqAvatar,
+  withActions,
+  viewDetailBtn,
   onClickViewDetails,
   onClickTransfer,
   onClickResale,
   onClickCancelResale,
-  withActions,
-  viewDetailBtn,
+  onClickSetAvatar,
+  onClickClearAvatar,
 }: OwnedUniqCardProps) {
   const theme = useTheme();
   const [isHovered, setIsHovered] = React.useState(false);
@@ -148,6 +159,32 @@ export default function OwnedUniqCard({
         primary: 'Resale Uniq',
         icon: <LocalGroceryStore />,
       });
+    }
+
+    if (hasUniq) {
+      switch (isUniqAvatar) {
+        case true:
+          menus.push({
+            onClick: () => onClickClearAvatar(),
+            primary: 'Clear Avatar',
+            icon: (
+              <Avatar
+                sx={{
+                  filter: 'grayscale(100%)',
+                }}
+                src={manifest?.media.images.square}
+              />
+            ),
+          });
+          break;
+        case false:
+          menus.push({
+            onClick: () => onClickSetAvatar(),
+            primary: 'Set Avatar',
+            icon: <Avatar src={manifest?.media.images.square} />,
+          });
+          break;
+      }
     }
   }
 

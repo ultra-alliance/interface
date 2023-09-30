@@ -23,8 +23,6 @@ export default function Pictures({ factoryData }: PicturesProps) {
       .then(response => response.blob())
       .then(blob => {
         const url = URL.createObjectURL(blob);
-        console.log(blob.type);
-        console.log(url);
         const isVideoUrl = videoExtensions.some(ext => url.endsWith(ext));
 
         setIsVideo(isVideoUrl);

@@ -33,7 +33,6 @@ class BaseService {
         txObject,
       );
       if (response?.status !== 'success') {
-        console.log(response);
         throw new Error('Failed to sign transaction');
       }
 

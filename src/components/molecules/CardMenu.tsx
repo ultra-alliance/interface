@@ -83,7 +83,6 @@ export default function CardMenu({
           boxShadow: theme => theme.shadows[3],
           marginInline: !isLg ? 'auto' : '',
         }}
-        src={AvatarProps?.src}
         {...AvatarProps}
       />
     );
@@ -193,7 +192,6 @@ export default function CardMenu({
               p: 2,
               gap: 2,
               pt: 2,
-
               display: 'flex',
               alignItems: 'center',
               justifyContent: isLg ? '' : 'center',

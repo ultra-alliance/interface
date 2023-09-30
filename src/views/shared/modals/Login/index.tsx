@@ -2,15 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { AccountBoxRounded } from '@mui/icons-material';
-import {
-  Avatar,
-  Box,
-  ButtonProps,
-  Divider,
-  FormControl,
-  Stack,
-  TextField,
-} from '@mui/material';
+import { Avatar, ButtonProps, Stack } from '@mui/material';
 import { useUltra } from '@ultra-alliance/react-ultra';
 import Modal from '@/components/modals/Modal';
 import { LINKS } from '@ultra-alliance/ultra-sdk';
@@ -75,7 +67,8 @@ export default function Login({
   onSuccessLogin,
   withAccountModal = true,
 }: LoginProps) {
-  const { ultra, login, isAuthenticated, isWalletInstalled } = useUltra();
+  const { account, isAuthenticated, isWalletInstalled, refreshAccount, login } =
+    useUltra();
 
   const [open, setOpen] = React.useState(isOpen !== undefined ? true : false);
   const [isToasted, setIsToasted] = React.useState(false);
@@ -98,8 +91,9 @@ export default function Login({
     toast.promise(
       login({
         throwOnError: true,
-      }).then(() => {
+      }).then(async () => {
         setIsToasted(false);
+        await refreshAccount();
         if (onSuccessLogin) onSuccessLogin();
       }),
       {

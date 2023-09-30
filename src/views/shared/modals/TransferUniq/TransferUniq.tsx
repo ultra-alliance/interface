@@ -1,40 +1,10 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {
-  AccountBoxRounded,
-  CloseRounded,
-  QuestionMark,
-  Receipt,
-  RemoveRedEye,
-  Send,
-} from '@mui/icons-material';
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Container,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Paper,
-  Skeleton,
-  Stack,
-  TextField,
-  Toolbar,
-  Tooltip,
-  useTheme,
-} from '@mui/material';
+import { Receipt, RemoveRedEye, Send } from '@mui/icons-material';
+import { Avatar, Box, Divider, Grid, Stack, TextField } from '@mui/material';
 import { CURRENCIES, useUltra } from '@ultra-alliance/react-ultra';
-import Modal from '@/components/modals/Modal';
 import usePagination from '@/hooks/usePagination';
-import useBreakPoint from '@/hooks/useBreakpoint';
 import PayWith from '@/components/organisms/PayWith';
 import UniqArrow from '@/components/organisms/UniqArrow';
 import { TxBetween } from '@/components/organisms/TxBetween';
@@ -66,17 +36,7 @@ export default function TransferUniq({
   onClose,
   onSuccessTransfer,
 }: TransferUniqProps) {
-  const { isSm } = useBreakPoint();
-  const theme = useTheme();
-  const {
-    ultra,
-    login,
-    isAuthenticated,
-    isWalletInstalled,
-    account,
-    marketPrices,
-    refreshAccount,
-  } = useUltra();
+  const { ultra, account, refreshAccount } = useUltra();
 
   const [to, setTo] = React.useState<string | undefined>(undefined);
   const [memo, setMemo] = React.useState<string | undefined>(undefined);
@@ -100,15 +60,15 @@ export default function TransferUniq({
         to: to,
         memo: memo,
       })
-      .then(res => {
+      .then(() => {
         if (onClose) onClose();
         toast.success("You've successfully transfered your Uniq.");
         refreshAccount().catch(err => {
-          console.log(err);
+          console.error(err);
         });
         if (onSuccessTransfer) onSuccessTransfer();
       })
-      .catch(err => {
+      .catch(() => {
         toast.error("Couldn't transfer Uniq. Please try again.");
       });
   };

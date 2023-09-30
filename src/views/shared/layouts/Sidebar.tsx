@@ -1,10 +1,6 @@
 import React from 'react';
-import Image from 'next/image';
 import {
-  AddBoxRounded,
-  ViewTimelineRounded,
   Article,
-  PageviewRounded,
   ViewCarouselRounded,
   HomeRepairService,
   PointOfSale,
@@ -28,10 +24,9 @@ import {
   useTheme,
 } from '@mui/material';
 import { DRAWER_WIDTH } from '@/constants/dimensions';
-import { CHAINS, LINKS } from '@ultra-alliance/ultra-sdk';
+import { LINKS } from '@ultra-alliance/ultra-sdk';
 import usePageRedirect from '@/hooks/usePageRedirect';
 import { useUltra } from '@ultra-alliance/react-ultra';
-import { ultraColors } from '@ultra-alliance/uikit';
 import useNetworkColor from '@/hooks/useNetworkColor';
 
 type SideBarProps = {
@@ -74,9 +69,11 @@ export default function Sidebar(props: SideBarProps) {
   function renderAppIcon({
     icon = <></>,
     adaptative = false,
+    key = '',
   }): React.ReactNode {
     return (
       <Avatar
+        key={key}
         sx={{
           backgroundColor: adaptative ? color : 'primary.main',
           color: 'white',
@@ -200,9 +197,10 @@ export default function Sidebar(props: SideBarProps) {
     imageSrc?: string,
     onClick?: () => void,
     disabled?: boolean,
+    key: string = '',
   ) => {
     return (
-      <Tooltip title={!disabled && title} placement="right" arrow>
+      <Tooltip title={!disabled && title} placement="right" arrow key={key}>
         <ListItem disablePadding sx={{ display: 'block' }}>
           <ListItemButton
             disabled={disabled}
@@ -316,7 +314,7 @@ export default function Sidebar(props: SideBarProps) {
         </Toolbar>
 
         <List>
-          {list?.map((item: any) =>
+          {list?.map((item: any, index: number) =>
             renderListItem(
               item.tooltip,
               item.icon,
@@ -324,6 +322,7 @@ export default function Sidebar(props: SideBarProps) {
               item.imgSrc,
               item.onClick,
               item.disabled,
+              index.toString() + '-list-item',
             ),
           )}
 

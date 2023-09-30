@@ -5,18 +5,9 @@ import { TxBetween } from '@/components/organisms/TxBetween';
 import UosArrow from '@/components/organisms/UosArrow';
 import RaffleService from '@/utilities/contract-helpers/RaffleService';
 import { Casino } from '@mui/icons-material';
-import {
-  Avatar,
-  Box,
-  Container,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 import { CURRENCIES, useUltra } from '@ultra-alliance/react-ultra';
-import { tUltra } from '@ultra-alliance/ultra-sdk';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 interface ReviewCreateRaffleProps {
   prev: () => void;
@@ -110,9 +101,9 @@ export default function ReviewCreateRaffle({
           reward_amount: '11.00000000 UOS',
         },
       });
-      console.log(tx);
+      console.info(tx);
     } catch (err: any) {
-      console.log(err);
+      console.error(err);
       // toast.error(err?.message);
     }
     next ? next() : null;

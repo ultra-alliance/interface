@@ -3,62 +3,53 @@ import App from '../shared/layouts/App';
 import MainView from '../shared/views/MainView';
 import { useRouter } from 'next/router';
 import About from './Overview/About';
-import {
-  formatTimeSinceNow,
-  isUltraAccount,
-  tGetAccountOutput,
-} from '@ultra-alliance/ultra-sdk';
+import { formatTimeSinceNow, isUltraAccount } from '@ultra-alliance/ultra-sdk';
 import usePagination from '@/hooks/usePagination';
 import React from 'react';
 import Wallet from './Overview/Wallet';
 import UniqsInInventory from './Inventory/UniqsInInventory';
-import { tParticipant, tRaffle, tWinner } from '@/types';
 import AccountRaffle from './Raffles';
-import RaffleService from '@/utilities/contract-helpers/RaffleService';
+import { queryRaffles } from '@/utilities/raffles';
 
 export default function AccountView() {
   const { currentPage, jump } = usePagination({ items: [], itemsPerPage: 10 });
   const { accountID } = useRouter().query;
-  const { ultra, account, chain } = useUltra();
-  const { data, fetchData } = useUltraQuery({
-    queryFn: async () => {
-      const raffleService = new RaffleService(ultra);
-
-      let data: any = {
-        account: undefined,
-        uniqs: undefined,
-        raffles: undefined,
-        participants: undefined,
-        winners: undefined,
-        test: undefined,
-      };
-
-      data.account = await ultra?.api.getAccount({
-        accountName: accountID as string,
-      });
-      data.uniqs = await ultra?.api.getUniqsOwned(accountID as string);
-      try {
-        data.raffles =
-          (await raffleService.getRafflesByInfluencer(accountID as string)) ||
-          [];
-        data.participants =
-          (await raffleService.getAccountParticipations(accountID as string)) ||
-          [];
-        data.winners =
-          (await raffleService.getAccountWins(accountID as string)) || [];
-      } catch (e) {
-        console.log(e);
-      }
-
-      return data;
-    },
-
+  const { ultra, account, chain, refreshAccount } = useUltra();
+  const { data: raffleData, fetchData: fetchRaffleData } = useUltraQuery({
+    queryFn: async () => await queryRaffles(ultra, accountID as string),
     autofetch: true,
   });
 
+  const { data: ultraAccount, fetchData: fetchUltraAccount } = useUltraQuery({
+    queryFn: async () =>
+      await ultra?.account.fetchAccountData({
+        account: accountID as string,
+      }),
+    autofetch: true,
+  });
+
+  const { data: avatarSrc, fetchData: fetchAvatar } = useUltraQuery({
+    queryFn: async () =>
+      await ultra?.account
+        .fetchAccountData({
+          account: accountID as string,
+          withAvatarManifest: true,
+        })
+        .then(data => data.avatar.manifest?.manifest.media.images.square),
+    autofetch: true,
+  });
+
+  const fetchAllData = async () => {
+    const promises = [fetchRaffleData(), fetchUltraAccount()];
+    if (!IS_CURRENT_ACCOUNT) {
+      promises.push(fetchAvatar());
+    }
+    await Promise.all(promises);
+  };
+
   React.useEffect(() => {
     if (accountID) {
-      fetchData();
+      fetchAllData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountID]);
@@ -75,13 +66,13 @@ export default function AccountView() {
       tabContent: (
         <>
           <Wallet
-            uniqsAmount={data?.uniqs?.rows?.length}
-            coreLiquidBalance={data?.account?.core_liquid_balance}
+            uniqsAmount={ultraAccount?.ownedUniqs?.length}
+            coreLiquidBalance={ultraAccount?.data?.core_liquid_balance}
             onClickSeeInventory={() => {
               jump(2);
             }}
           />
-          <About account={data?.account} />
+          <About account={ultraAccount?.data} />
         </>
       ),
     },
@@ -93,11 +84,15 @@ export default function AccountView() {
       tabContent: (
         <>
           <UniqsInInventory
-            uniqsOwned={data?.uniqs?.rows}
+            uniqsOwned={ultraAccount?.ownedUniqs}
             withActions={IS_CURRENT_ACCOUNT}
             withViewButton={true}
+            onAvatarChange={async () => {
+              await fetchAvatar();
+              await refreshAccount();
+            }}
             onActionComplete={() => {
-              fetchData();
+              fetchUltraAccount();
             }}
           />
         </>
@@ -111,8 +106,8 @@ export default function AccountView() {
       onClick: () => {},
       tabContent: (
         <AccountRaffle
-          raffles={data?.raffles}
-          participants={data?.participants}
+          raffles={raffleData?.raffles}
+          participants={raffleData?.participants}
         />
       ),
     },
@@ -124,13 +119,15 @@ export default function AccountView() {
         <MainView
           cardMenuProps={{
             AvatarProps: {
-              src: isUltraAccount(data?.account?.account_name || '')
+              src: isUltraAccount(ultraAccount?.data?.account_name || '')
                 ? 'https://pbs.twimg.com/profile_images/1392037656004022273/jFSkZjjb_400x400.png'
-                : undefined,
+                : IS_CURRENT_ACCOUNT
+                ? account?.avatar.manifest?.manifest.media.images.square
+                : avatarSrc,
             },
-            name: data?.account?.account_name,
+            name: ultraAccount?.data?.account_name,
             overlineText: `Joined Ultra ${formatTimeSinceNow(
-              data?.account?.created,
+              ultraAccount?.data?.created,
             )}`,
             menus,
             page: currentPage,

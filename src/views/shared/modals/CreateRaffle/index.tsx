@@ -8,7 +8,6 @@ import CloseButton from '@/components/atoms/CloseButton';
 import Receipt from './Receipt';
 
 import ReviewCreateRaffle from './Review';
-import usePageRedirect from '@/hooks/usePageRedirect';
 
 type BuyUniqProps = {
   open: boolean;
